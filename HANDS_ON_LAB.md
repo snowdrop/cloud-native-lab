@@ -219,10 +219,10 @@ Use the OpenShift Console to create a MySQL Service within your project and bind
 
 ![](image/provisioned_service.png)
 
-- Generate the secret from the service by clicking on the button `create binding`
+- Generate the secret from the service by clicking on the button `create binding`. The secret created will contain the database info to access it.
 ![](image/create_binding.png)
 
-- Accept the values and click on `next`
+- Click on the button `bind` and review the results
 ![](image/binding_results.png)
 
 - The secret has been created and will be used later to mount it to the `cloud-native-backend` pod
