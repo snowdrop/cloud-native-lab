@@ -182,14 +182,56 @@ mvn package fabric8:deploy -Popenshift
 
 Time: 15min
 
-! Use the Web UI to create the Service and bind it. 
-Alternatively, execute the following command using the definition file provided with the backend application (which is the subject of the next step) in order to create a serviceInstance for MySQL
+- Use the OpenShift Console UI to create a MySQL Service within your project and bind it. 
+- Within your project, click on the `Browse catalog` button
+
+![](image/click_browse_catalog.png)
+
+- Next select `MySQL (APB)` from the catalog
+
+![](image/select_mysql_apb.png)
+
+- Review the information of the database
+
+![](image/mysql_info.png)
+
+- Select `development` as plan per default
+
+![](image/mysql_plan.png)
+
+- Configure the service by selecting your project and database name `devel`
+![](image/mysql_conf_1.png)
+
+- Define the user `devel` and password `devel`
+
+![](image/mysql_conf_2.png)
+
+- Don't bind the service instance to generate the secret for the moment
+
+![](image/mysql_binding.png)
+
+- Review the results of the creation of the service
+
+![](image/mysql_results.png)
+
+- After a few seconds, a MySQL daatabase should be created within your project and provisioned
+
+![](image/provisioned_service.png)
+
+- Generate the secret from the service by clicking on the button `create binding`
+![](image/create_binding.png)
+
+- Accept the values and click on `next`
+![](image/binding_results.png)
+
+- The secret has been created and will be used later to mount it to the `cloud-native-backend` pod
+![](image/service_provisioned_binded.png)
+
+Remark : Alternatively, execute the following command within the `cloud-native-backend` project using the definition file provided in order to create a serviceInstance for MySQL
 
 ```bash
 oc create -f openshift/mysql_serviceinstance.yml
 ```
-
-TODO - Add screenshots
 
 ### Use the launcher to generate a Cloud Native Demo - Backend zip
 
@@ -230,7 +272,22 @@ oc new-app -f openshift/cloud-native-demo_backend_template.yml
 ```bash
 oc start-build cloud-native-backend-s2i --from-dir=. --follow
 ```
-- Wait until the build and deployment complete !!
+- Wait until the build and deployment are complete !
+- As the pod of the backend doesn't have the info to access the database and configure correctly its datasource, then the application will report errors within the log of the console.
+- Then, from the left menu bar of the console, select `Resources/Secrets` to list the secrets
+
+![](image/select-secret-db.png)
+
+- Select the secret created previously and containing `credentials` word within its name. Click on the name of the secret.
+- Click on the button `Add to application`. Select from the drop down list your cloud-backend application and click on the save button
+
+![](image/bind-it-app.png)
+
+- Next, open the `Applications/Deployments` view and verify that a second deployment of the has bee triggered
+
+![](image/backend-redeployed.png)
+
+Remark: If you prefer to do the job without using the console, then execute the following oc commands
 
 - Bind the credentials of the ServiceInstances to a Secret
 
@@ -238,20 +295,13 @@ oc start-build cloud-native-backend-s2i --from-dir=. --follow
 oc create -f openshift/mysql-secret_servicebinding.yml
 ```
 
-TODO - Add screenshots
-
 - Next, mount the secret of the MySQL service to the `Deploymentconfig` of the backend
 
 ```bash
 oc env --from=secret/spring-boot-notes-mysql-binding dc/cloud-native-backend
 ```
 
-TODO - Add screenshots
-
-**NOTE**: If you create the service using the UI, then find the secret name of the DB and next click on the `add to application` button
-to add the secret to the Deployment Config of your application
-
-- Wait until the pod is recreated and then test the service
+- Wait in both cases until the pod is recreated and then test the service
 
 ![](image/front-db.png)
 
