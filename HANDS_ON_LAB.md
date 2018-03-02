@@ -310,42 +310,38 @@ For that purpose we will modify the existing applications to instrument them wit
 
 TODO : Check to use only one instance of Jaeger
 
-- Install Jaeger on OpenShift to collect the traces
-
-```bash
-oc new-project tracing
-oc process -f https://raw.githubusercontent.com/jaegertracing/jaeger-openshift/master/all-in-one/jaeger-all-in-one-template.yml | oc create -f -
-```
-
-- Create a route to access the Jaeger collector
-
-```bash
-oc expose service jaeger-collector --port=14268 -n tracing
-```
-
-- Specify next the url address of the Jaeger Collector to be used
+- To be able to specify the address of the Disributed tracer responsible to collect the traces, we need it route URL address
 - Get the route address
 
 ```bash
 oc get route/jaeger-collector --template={{.spec.host}} -n tracing 
 ```
-    
+
+- Specify next the url address of the Jaeger Collector to be used within the `jaeger` property to be included to your `application-openshift.yml` file.
+  As we don't use jaeger running as side-car container within the pod, the protocol used is `http`.
+```yaml
+jaeger:
+  protocol: HTTP
+  sender: http://jaeger-collector-tracing.HETZNER_IP_ADDRESS.nip.io/api/traces
+```
 - Open the pom file and add the `Spring Boot JAeger starter` dependency
 ```xml
 <!-- OpenTracing -->
 <dependency>
 	<groupId>me.snowdrop</groupId>
 	<artifactId>opentracing-tracer-jaeger-spring-web-starter</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1</version>
 </dependency>
 ```
-    
-- Add the following jaeger properties to the application.yml file with the route address of the collector
 
-```yaml
-jaeger:
-  protocol: HTTP
-  sender: http://jaeger-collector-tracing.HETZNER_IP_ADDRESS.nip.io/api/traces
+- Delete your backend application
+```bash
+oc delete all -l app=cloud-native-back
+```
+- Next redeploy a new application using this command 
+
+```bash
+oc new-app -f openshift/cloud-native-demo_backend_template.yml -p OPENTRACING_JAEGER_SERVICE_NAME=cloud-native-backend-$(oc project -q)
 ```
 
 - Redeploy your project / spring boot backend on the cloud platform
