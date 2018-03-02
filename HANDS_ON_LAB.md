@@ -182,7 +182,8 @@ mvn package fabric8:deploy -Popenshift
 
 Time: 15min
 
-- Use the OpenShift Console UI to create a MySQL Service within your project and bind it. 
+Use the OpenShift Console to create a MySQL Service within your project and bind it. 
+
 - Within your project, click on the `Browse catalog` button
 
 ![](image/click_browse_catalog.png)
