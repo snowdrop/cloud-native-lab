@@ -349,7 +349,140 @@ oc port-forward NAME_OF_POD 5005:5005
 
 Time: 20min
 
+- Add Arquillian dependencies to the pom.xml file
+```xml
+<dependency>
+	<groupId>org.jboss.arquillian.junit</groupId>
+	<artifactId>arquillian-junit-container</artifactId>
+	<scope>test</scope>
+</dependency>
+<dependency>
+	<groupId>org.arquillian.cube</groupId>
+	<artifactId>arquillian-cube-openshift</artifactId>
+	<scope>test</scope>
+	<exclusions>
+		<exclusion>
+			<groupId>io.undertow</groupId>
+			<artifactId>undertow-core</artifactId>
+		</exclusion>
+	</exclusions>
+</dependency>
+```
+
+- Create an `AbstractBoosterApplicationTest` class and specify the field `NoteReposiroty`. Annotate it with the annotation `2Autowired`
+```java
+public abstract class AbstractBoosterApplicationTest {
+
+    @Autowired
+    protected NoteRepository noteRepository;
+}
+```
+
+- Next, create 2 methods `testGetEmptyArray` and `testGetOneNote` to test the Note backend
+
+```java
+    @Test
+    public void testGetEmptyArray() {
+        when().get()
+                .then()
+                .statusCode(200)
+                .body(is("[]"));
+    }
+
+
+    @Test
+    public void testGetOneNote() {
+        Note cherry = new Note();
+        cherry.setContent("cherry");
+        cherry.setTitle("excellent");
+        noteRepository.save(cherry);
+
+        when().get(String.valueOf(cherry.getId()))
+                .then()
+                .statusCode(200)
+                .body("id", is(cherry.getId().intValue()))
+                .body("content", is(cherry.getContent()))
+                .body("title", is(cherry.getTitle()));
+    }
+```
+
+- Create a `LocalTest` class which extends the `AbstractBoosterApplicationTest`
+```java
+public class LocalTest extends AbstractBoosterApplicationTest {
+}
+```
+
+- Configure Junit using the annotation `@Runwith` to use `SpringRunner`. The annotation should be added at the class level.
+```java
+@RunWith(SpringRunner.class)
+```
+- Tell to Spring Boot Test to use a random port. The annotation should be added at the class level.
+```java
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+```
+- Set the field to use the local random port
+```java
+    @Value("${local.server.port}")
+    private int port;
+```
+
+- Define the URL of the endpoint to test using `RestAssured.baseURI`
+```java
+    @Before
+    public void beforeTest() {
+        noteRepository.deleteAll();
+        RestAssured.baseURI = String.format("http://localhost:%d/api/notes", port);
+    }
+```
+
+- Test the `LocalTest` Junit class
+```bash
+mvn clean test
+```
+
+- Create the `OpenShiftIT` which will contain the code to test the backend service
+```java
+public class OpenShiftIT extends AbstractBoosterApplicationTest {
+```
+
+- Configure Junit using the annotation `@Runwith` to use `Arquillian`. The annotation should be added at the class level.
+```java
+@RunWith(Arquillian.class)
+```
+
+- Add the `baseURL` field and specify the following annotations
+```java
+    @RouteURL("${app.name}")
+    public URL baseURL;
+```
+
+Remark: The RouteURL is used by arquillian to access the service deployed on the cloud platform
+
+- Configure `RestAssured.baseURI` to use the baseURL followed by the address of the endpoint
+```java
+    @Before
+    public void setup() throws Exception {
+        RestAssured.baseURI = baseURL + "api/notes";
+    }
+```
+
+- Create an arquillian file under `src/main/resources` folder containing such parameters
+```xml
+<arquillian xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns="http://jboss.org/schema/arquillian"
+            xsi:schemaLocation="http://jboss.org/schema/arquillian http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+
+  <extension qualifier="openshift">
+    <property name="namespace.use.current">true</property>
+    <property name="env.init.enabled">false</property>
+    <property name="enableImageStreamDetection">false</property>
+  </extension>
+
+</arquillian>
+```
+
 - Test the Integration Test using this command
+
 ```bash
 mvn clean verify -Popenshift-it
 ```
