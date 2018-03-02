@@ -274,18 +274,25 @@ Time: 10min
   value: 'true'
 ```
 
-- Next run this `oc` command to forward the port traffic to the port exposed by the remote debuggerr
+- Next run this `oc` command to forward the pod traffic of the port `5005` to your local remote debugger running at the address `localhost:5005`
 ```bash
 oc port-forward NAME_OF_POD 5005:5005
 ```
 
 - Add a breakpoint within the `NoteController` class at the method `getAll`
 
-![](image/launcher.png)
+![](image/remote-debugging.png)
+
+- Configure a remote debugger into your IDE
+
+![](image/remote-debug.png)
 
 - Start your remote debugger locally at the address `5005`
-- Open the front within your web browser and click on the button to get all the notes
-- Then your remote debugger should stop at the line where the breakpoint has been included
+- Open the front application within your web browser and click on the button to get all the notes
+- Then your remote debugger should stop at the line where the breakpoint has been added
+
+![](image/remote-debugging.png)
+
 
 ### Develop an Arquillian Cube Test
 
