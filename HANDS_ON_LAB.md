@@ -1,9 +1,22 @@
 # Hands On Lab instructions for the Cloud Native Development
 
-TODO - Add ToC (using gh-md-toc hands-on-lab.md)
-* [Requirements](#requirements)
-* [Objectives](#objectives)
-    * [All users to recommendations:v2](#all-users-to-recommendationsv2)
+Table of Contents
+=================
+
+   * [Hands On Lab instructions for the Cloud Native Development](#hands-on-lab-instructions-for-the-cloud-native-development)
+      * [Requirements](#requirements)
+      * [Lab Scenario](#lab-scenario)
+      * [Objectives](#objectives)
+         * [Discover the OpenShift platform](#discover-the-openshift-platform)
+         * [Generate Spring Boot Cloud Native Front project using the launcher](#generate-spring-boot-cloud-native-front-project-using-the-launcher)
+         * [Create a MySQL service instance using the Service Catalog](#create-a-mysql-service-instance-using-the-service-catalog)
+         * [Use the launcher to generate a Cloud Native Demo - Backend zip](#use-the-launcher-to-generate-a-cloud-native-demo---backend-zip)
+         * [Debug your application](#debug-your-application)
+         * [Develop an Arquillian Cube Test](#develop-an-arquillian-cube-test)
+         * [Use Distributed Tracing to collect app traces](#use-distributed-tracing-to-collect-app-traces)
+         * [Show case horizontal scaling](#show-case-horizontal-scaling)
+         * [S2I Build using pipeline](#s2i-build-using-pipeline)
+      * [Bonus](#bonus)
 
 ## Requirements
 
@@ -268,7 +281,7 @@ oc port-forward NAME_OF_POD 5005:5005
 
 - Add a breakpoint within the `NoteController` class at the method `getAll`
 
-TODO: Add image
+![](image/launcher.png)
 
 - Start your remote debugger locally at the address `5005`
 - Open the front within your web browser and click on the button to get all the notes
