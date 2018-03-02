@@ -361,11 +361,11 @@ For that purpose we will modify the existing applications to instrument them wit
 
 TODO : Check to use only one instance of Jaeger
 
-- To be able to specify the address of the Disributed tracer responsible to collect the traces, we need it route URL address
+- To be able to specify the address of the Disributed tracer responsible to collect the traces, we need its route URL address
 - Get the route address
 
 ```bash
-oc get route/jaeger-collector --template={{.spec.host}} -n tracing 
+oc get route/jaeger-collector --template={{.spec.host}} -n infra 
 ```
 
 - Specify next the url address of the Jaeger Collector to be used within the `jaeger` property to be included to your `application-openshift.yml` file.
@@ -373,7 +373,8 @@ oc get route/jaeger-collector --template={{.spec.host}} -n tracing
 ```yaml
 jaeger:
   protocol: HTTP
-  sender: http://jaeger-collector-tracing.HETZNER_IP_ADDRESS.nip.io/api/traces
+  sender: ${jaeger.url:#{null}}
+  port: 0
 ```
 - Open the pom file and add the `Spring Boot JAeger starter` dependency
 ```xml
