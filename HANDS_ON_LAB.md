@@ -215,7 +215,7 @@ Use the OpenShift Console to create a MySQL Service within your project and bind
 
 ![](image/mysql_results.png)
 
-- After a few seconds, a MySQL daatabase should be created within your project and provisioned
+- After a few seconds, a MySQL database should be created within your project and provisioned
 
 ![](image/provisioned_service.png)
 
