@@ -359,24 +359,7 @@ from the different spring boot applications and to aggregate them using a Distri
 We will use the OpenTracing specification implemented by the [Jaeger]() project and available using the [Spring Boot Jaeger starter]()
 For that purpose we will modify the existing applications to instrument them with the Spring Boot Jaeger.
 
-TODO : Check to use only one instance of Jaeger
-
-- To be able to specify the address of the Disributed tracer responsible to collect the traces, we need its route URL address
-- Get the route address
-
-```bash
-oc get route/jaeger-collector --template={{.spec.host}} -n infra 
-```
-
-- Specify next the url address of the Jaeger Collector to be used within the `jaeger` property to be included to your `application-openshift.yml` file.
-  As we don't use jaeger running as side-car container within the pod, the protocol used is `http`.
-```yaml
-jaeger:
-  protocol: HTTP
-  sender: ${jaeger.url:#{null}}
-  port: 0
-```
-- Open the pom file and add the `Spring Boot JAeger starter` dependency
+- Open the pom file and add the `Spring Boot Jaeger starter` dependency
 ```xml
 <!-- OpenTracing -->
 <dependency>
@@ -386,32 +369,30 @@ jaeger:
 </dependency>
 ```
 
-- Delete your backend application
-```bash
-oc delete all -l app=cloud-native-back
-```
-- Next redeploy a new application using this command 
-
-```bash
-oc new-app -f openshift/cloud-native-demo_backend_template.yml -p OPENTRACING_JAEGER_SERVICE_NAME=cloud-native-backend-$(oc project -q)
+- Update the `Deploymentconfig` of your `cloud-native-backend` project in order to pass these env variables
+```yaml
+   - name: OPENTRACING_JAEGER_HTTP_SENDER_URL
+     value: http://jaeger-collector-infra.svc:14268/api/traces
+   - name: OPENTRACING_JAEGER_SERVICE_NAME
+     value: cloud-native-backend-YOUR_PROJECT
 ```
 
-- Redeploy your project / spring boot backend on the cloud platform
-```bash
-mvn clean package
-oc start-build cloud-native-backend-s2i --from-dir=. --follow
-```
+Remark : you can get your project name using this command `$(oc project -q)`
 
-- Check if the pod has been recreated using this oc command
+- Safe the `Deploymentconfig` and check if the pod has been recreated using this oc command
 ```bash
 oc get pods -w
 ```
 
-- Open within your browser the url/address of the `jaeger` collector - `https://jaeger-collector-infra.HETZNER_IP.nip.io`
-- Using the `cloud-native-front` application, issue send requests against the backend to fetch from the database some `notes`
+- Open within your browser the url/address of the `jaeger` query - `https://jaeger-query-infra.HETZNER_IP.nip.io/`
+- Select your project from the list and click on the button `Find traces`
+
+![](image/jaeger-query-project.png)
+
+- Using the `cloud-native-front` application, send requests against the backend to fetch data from the database by clicking on the refresh `button`
 - Check within the collector screen that traces have been generated
 
-TODO : Add screenshots
+![](image/jaeger_traces.png)
 
 ### Show case horizontal scaling
 
