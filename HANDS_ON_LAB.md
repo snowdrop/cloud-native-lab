@@ -444,12 +444,19 @@ oc delete bc/cloud-native-backend
 oc new-build --strategy=pipeline https://github.com/snowdrop/cloud-native-backend.git
 ```
 
-- Open your project within the OpenShift console and select `Pieplines` under the `Build` screen
+- Open your project within the OpenShift console and select `Pipelines` under the `Build` screen
 - Look to your pipeline created and check if the build has been started
 - Click on the link `view log` to access to the `jenkins job console`
-- When you will access to the `jenkins` server opened, then use your `user/password` to log on 
-- Accept the permissions change
-- Consult the output of the build
+- When you will access to the `jenkins` server, then use your `user/password` to log on 
+- Click on the button `Allow selected permissions`
+
+![](image/authorize_access.png)
+
+- Log on again with your user/password
+- Consult the output of the build within the job screen
+
+![](image/jenkins_job.png)
+
 - When the build is finished, select within your Openshift Console the `overview` screen and access to the newly pod created
 
 TODO : Add screens for jenkins
