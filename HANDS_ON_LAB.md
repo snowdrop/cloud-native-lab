@@ -349,6 +349,10 @@ oc port-forward NAME_OF_POD 5005:5005
 
 Time: 20min
 
+- Test the Integration Test using this command
+```bash
+mvn clean verify -Popenshift-it
+```
 
 ### Use Distributed Tracing to collect app traces
 
