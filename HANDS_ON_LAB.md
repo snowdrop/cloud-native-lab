@@ -575,25 +575,31 @@ During this module, you will use the `Pipeline` strategy where a `Jenkinsfilke` 
 for Jenkins. This file will be deployed on the platform as a new `BuildConfig` in order to ask that Jenkins creates a Job running within a `jnlp java client container`
 the scenario defined as `groovy` script.
 
-- Create a `jenkinsfile` under the `cloud-native-backend` project
+- Create a `Jenkinsfile` under the `cloud-native-backend` project
 
 ```bash
-cat > jenkinsfile <<'EOL'
+cat > Jenkinsfile <<'EOL'
 podTemplate(name: 'maven33', label: 'maven33', cloud: 'openshift', serviceAccount: 'jenkins', containers: [
     containerTemplate(name: 'jnlp',
         image: 'openshift/jenkins-slave-maven-centos7',
         workingDir: '/tmp',
         envVars: [
-            envVar(key: 'MAVEN_MIRROR_URL',value: 'http://nexus-myproject.HETZNER_IP.nip.io/nexus/content/groups/public/')
+            containerEnvVar(key: 'MAVEN_MIRROR_URL',value: 'http://nexus.infra.svc:8081/nexus/content/groups/public/'),
         ],
         cmd: '',
         args: '${computer.jnlpmac} ${computer.name}')
 ]){
   node("maven33") {
     checkout scm
+    // git url: 'https://github.com/snowdrop/cloud-native-backend.git'
     stage("Test") {
       sh "mvn test"
     }
+
+    stage("Use appropriate namespace") {
+        sh "oc project ${OPENSHIFT_NAMESPACE}"
+    }
+
     stage("Deploy") {
       sh "mvn  -Popenshift -DskipTests clean fabric8:deploy"
     }
@@ -608,11 +614,51 @@ EOL
 oc delete bc/cloud-native-backend
 ```
 
-- Create a new build
+- Create a script that can be leveraged to automatically create the pipeline build config
 
 ```bash
-oc new-build --strategy=pipeline https://github.com/snowdrop/cloud-native-backend.git
+cat > create-pipeline.sh <<'EOL'
+#!/usr/bin/env bash
+
+# Creates jenkins pipeline for a namespace
+# The only argument passed to the script is the namespace / project into which the pipeline BC will be created
+# If no argument is passed, it's assumed that the namespace to be used is the current namespace
+
+# The script assumes that oc login has been performed
+
+namespace=${1:-$(oc project -q)}
+
+substituted_var_filename=jenkins-bc-temp.yml
+
+# change the namespace placeholder
+sed -e "s/changeme/${namespace}/g" openshift/jenkins-bc.yaml > ${substituted_var_filename}
+
+# actually create the JenkinsPipeline BuildConfig
+oc apply -f ${substituted_var_filename}
+
+# remove temporary file
+rm ${substituted_var_filename}
+
+
+EOL
 ```
+
+```bash
+chmod +x create-pipeline.sh
+```
+
+- Create the new build
+
+```bash
+./create-pipeline.sh
+```
+
+- Start the new build
+
+```bash
+oc start-build cloud-native-backend-$(oc project -q)
+```
+
 
 - Open your project within the OpenShift console and select `Pipelines` under the `Build` screen
 - Look to your pipeline created and check if the build has been started
