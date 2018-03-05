@@ -369,9 +369,9 @@ Time: 20min
 </dependency>
 ```
 
-- Create an `AbstractBoosterApplicationTest` class and specify the field `NoteReposiroty`. Annotate it with the annotation `2Autowired`
+- Create an `LocalTest` class and specify the field `NoteRepository`. Annotate it with the annotation `@Autowired`
 ```java
-public abstract class AbstractBoosterApplicationTest {
+public class LocalTest {
 
     @Autowired
     protected NoteRepository noteRepository;
@@ -406,20 +406,16 @@ public abstract class AbstractBoosterApplicationTest {
     }
 ```
 
-- Create a `LocalTest` class which extends the `AbstractBoosterApplicationTest`
-```java
-public class LocalTest extends AbstractBoosterApplicationTest {
-}
-```
-
 - Configure Junit using the annotation `@Runwith` to use `SpringRunner`. The annotation should be added at the class level.
 ```java
 @RunWith(SpringRunner.class)
 ```
+
 - Tell to Spring Boot Test to use a random port. The annotation should be added at the class level.
 ```java
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 ```
+
 - Set the field to use the local random port
 ```java
     @Value("${local.server.port}")
@@ -440,9 +436,11 @@ public class LocalTest extends AbstractBoosterApplicationTest {
 mvn clean test
 ```
 
-- Create the `OpenShiftIT` which will contain the code to test the backend service
+- Create the `OpenShiftIT` which will contain the code to test the deployed backend service over it's REST endpoints
 ```java
-public class OpenShiftIT extends AbstractBoosterApplicationTest {
+public class OpenShiftIT {
+    
+}
 ```
 
 - Configure Junit using the annotation `@Runwith` to use `Arquillian`. The annotation should be added at the class level.
@@ -452,17 +450,55 @@ public class OpenShiftIT extends AbstractBoosterApplicationTest {
 
 - Add the `baseURL` field and specify the following annotations
 ```java
+    @AwaitRoute(path = "/health")
     @RouteURL("${app.name}")
     public URL baseURL;
 ```
 
 Remark: The RouteURL is used by arquillian to access the service deployed on the cloud platform
+The `@AwaitRule` annotation is used in order for Arquillian to wait until the application has stood up properly
 
 - Configure `RestAssured.baseURI` to use the baseURL followed by the address of the endpoint
 ```java
     @Before
     public void setup() throws Exception {
         RestAssured.baseURI = baseURL + "api/notes";
+    }
+```
+
+- Finally create the actual test code
+
+```java
+    @Test
+    public void testPostGetAndDelete() {
+        //create a new note
+        Integer id = given()
+                .contentType(ContentType.JSON)
+                .body(new HashMap<String, String>() {{
+                    put("title", "excellent");
+                    put("content", "cherry");
+                }})
+                .when()
+                .post()
+                .then()
+                .statusCode(200)
+                .body("id", not(isEmptyString()))
+                .body("title", CoreMatchers.is("excellent"))
+                .extract()
+                .response()
+                .path("id");
+
+        //fetch the note by id
+        when().get(id.toString())
+                .then()
+                .statusCode(200)
+                .body("id", CoreMatchers.is(id))
+                .body("title", CoreMatchers.is("excellent"));
+
+        //delete the note
+        when().delete(id.toString())
+                .then()
+                .statusCode(200);
     }
 ```
 
