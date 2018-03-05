@@ -51,7 +51,7 @@ Time: 15min
 Remark: Use the user/pwd and IP address assigned to you
 
 - Get the token from the `command-line` screen using this URL `https://HETZNER_IP_ADDRESS:8443/console/command-line`
-- Next, execute this command within your terminal to access to the cluster using your `oc` client tool
+- Next, execute this command within your terminal to access to the cluster using your `oc` client tool (making sure you substitute the token with one from the previous step)
 
 ```bash
 oc login https://HETZNER_IP_ADDRESS:8443 --token=3WiSqc3JyW5dkJ5izQvOBVFK-njXTTnpse8ruLiYaoQ
@@ -110,7 +110,7 @@ cd booster-demo-front-spring-boot
 ```
 
 - Create `Note` pojo class under `src/main/java/me/snowdrop/cloudnative/front`
-- Define these fields as setter/getter 
+- Define these fields as well as their respective setters/getters 
 ```java
 private Long id;
 private String title;
@@ -120,7 +120,7 @@ private Date updatedAt;
 ```
 
 - Add a `NoteController` class within the same package `me.snowdrop.cloudnative.front`
-- Add these `Spring` annotations to specify the mapping to be used to expose the `note` service as REST endpoint
+- Add the following `Spring` annotations to specify the mapping to be used to expose the `note` service as REST endpoint
 ```java
 @RestController
 @RequestMapping("note")
@@ -273,8 +273,8 @@ oc new-app -f openshift/cloud-native-demo_backend_template.yml
 ```bash
 oc start-build cloud-native-backend-s2i --from-dir=. --follow
 ```
-- Wait until the build and deployment are complete !
-- As the pod of the backend doesn't have the info to access the database and configure correctly its datasource, then the application will report errors within the log of the console.
+- Wait until both the build and deployment are done !
+- As the pod of the backend doesn't yet have the info to access the database (and therefore can't correctly configure  it's datasource), the application will report errors within the log of the console.
 - Then, from the left menu bar of the console, select `Resources/Secrets` to list the secrets
 
 ![](image/select-secret-db.png)
@@ -284,7 +284,7 @@ oc start-build cloud-native-backend-s2i --from-dir=. --follow
 
 ![](image/bind-it-app.png)
 
-- Next, open the `Applications/Deployments` view and verify that a second deployment of the has bee triggered
+- Next, open the `Applications/Deployments` view and verify that a second deployment of the has been triggered
 
 ![](image/backend-redeployed.png)
 
@@ -537,7 +537,7 @@ Time : 5min
 
 The OpenShift platform offers a horizontal scaling feature that we will use within this module of the lab in order
 to expose behind the `cloud-native-front` router address 2 pods. By opening the address of the route of the front application,
-you will be able to see the `pod-name` returned which corresponds to one of the pod loadbalanced by the Kubernetes API.
+you will be able to see the `pod-name` returned which corresponds to one of the pod load balanced by the Kubernetes API.
 
 - In order to showcase/demo horizontal scaling, then you will execute the following `oc` command to scale the DeploymentConfig
   of the `cloud-native-front application`
@@ -571,7 +571,7 @@ Tome : 15min
 The Source to Image strategy - aka `s2i` proposes different strategies to build a project on OpenShift. During the previous hands on lab modules, we have 
 used either the mode `Binary` or `Git` as the source of the project to be build by the `s2i` bash script of the image `redhat-openjdk-1.8`.
 
-During this module, you will use the `Pipeline` strategy where a `Jenkinsfilke` containing the build scenario will be created using `Groovy syntax`
+During this module, you will use the `Pipeline` strategy where a `Jenkinsfile` containing the build scenario will be created using `Groovy syntax`
 for Jenkins. This file will be deployed on the platform as a new `BuildConfig` in order to ask that Jenkins creates a Job running within a `jnlp java client container`
 the scenario defined as `groovy` script.
 
