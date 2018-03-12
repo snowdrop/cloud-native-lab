@@ -318,18 +318,23 @@ curl -k $BACKEND/api/notes/1
 
 Time: 10min
 
-- Edit the `deploymentConfig` to add this env parameter and redeploy the pod
+- Edit the `deploymentConfig` of the `cloud-native-front` to add this env parameter and redeploy the pod
 
 ```yaml
 - name: JAVA_ENABLE_DEBUG
   value: 'true'
 ```
 
+- Get the `NAME_OF_THE_POD`
+```bash
+oc get pods -lapp=cloud-native-front
+NAME                         READY     STATUS    RESTARTS   AGE
+cloud-native-front-2-ck9lz   1/1       Running   0          1m
+```
 - Next run this `oc` command to forward the pod traffic of the port `5005` to your local remote debugger running at the address `localhost:5005`
 ```bash
 oc port-forward NAME_OF_POD 5005:5005
 ```
-
 - Add a breakpoint within the `NoteController` class at the method `getAll`
 
 ![](image/remote-debugging.png)
