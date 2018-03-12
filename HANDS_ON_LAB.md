@@ -144,8 +144,8 @@ public Note update(@PathVariable("id") long id, @RequestBody Note note)
 - Implement the body of each CRUD method to return: 
   - `noteGateway.all();` content for `all` method
   - `noteGateway.add(note);` for `add(Note note)`
-  - `noteGateway.update(note);` for `update(long id, Note note)`
-  - `OK` as response message for `long id)`
+  - `noteGateway.update(note);` for `update(long id, Note note)`. Note that before calling `noteGateway.update(note);` `note.setId(id);` needs to be executed
+  - `DefaultResult.INSTANCE` as response message for `delete(long id)`
   
 The class `DefaultResult` also needs to be added as `private static` inside the `NoteController`
 
