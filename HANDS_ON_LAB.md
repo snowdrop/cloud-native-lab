@@ -146,6 +146,23 @@ public Note update(@PathVariable("id") long id, @RequestBody Note note)
   - `noteGateway.add(note);` for `add(Note note)`
   - `noteGateway.update(note);` for `update(long id, Note note)`
   - `OK` as response message for `long id)`
+  
+The class `DefaultResult` also needs to be added as `private static` inside the `NoteController`
+
+```java
+    private static class DefaultResult {
+
+        private final String result = "OK";
+
+        public String getResult() {
+            return result;
+        }
+
+        private static DefaultResult INSTANCE = new DefaultResult();
+
+        private DefaultResult() {}
+    }
+```
 
 - Add the interface `NoteGateway` within the saame package
 ```java
