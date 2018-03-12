@@ -17,6 +17,8 @@ Table of Contents
          * [Use Distributed Tracing to collect app traces](#use-distributed-tracing-to-collect-app-traces)
          * [Show case horizontal scaling](#show-case-horizontal-scaling)
          * [S2I Build using pipeline](#s2i-build-using-pipeline)
+   * [Lab material for instructors](#lab-material-for-instructors)
+
 
 ## Requirements
 
@@ -731,4 +733,12 @@ oc start-build cloud-native-backend-$(oc project -q)
 ![](image/jenkins_job.png)
 
 - When the build is finished, select within your OpenShift Console the `overview` screen and access to the newly pod created
+
+# Lab material for instructors
+
+- [Cloud Native Front](https://github.com/snowdrop/cloud-native-front)
+- [Cloud Native Backend](https://github.com/snowdrop/cloud-native-backend)
+- [Launcher catalog](https://github.com/snowdrop/cloud-native-catalog)
+- [Lab](https://github.com/snowdrop/cloud-native-lab)
+
 
