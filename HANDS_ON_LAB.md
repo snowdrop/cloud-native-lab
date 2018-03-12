@@ -354,7 +354,7 @@ oc port-forward NAME_OF_POD 5005:5005
 
 Time: 20min
 
-- Add Arquillian dependencies to the pom.xml file
+- Add Arquillian dependencies to the pom.xml file of the `cloud-native-backend` project
 ```xml
 <dependency>
 	<groupId>org.jboss.arquillian.junit</groupId>
