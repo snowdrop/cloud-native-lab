@@ -599,9 +599,9 @@ cloud-native-front-1-cc44g   1/1       Running   0          4h
 - Next, open 2 Web browsers or curl to check that you get a response from on of the round robin called pod
 
 ```bash
-http -v http://cloud-native-front-cnd-demo.192.168.64.80.nip.io/ | grep 'id="_http_booster"'
+curl -v http://cloud-native-front-PROJECT_NAME.HETZNER_IP.nip.io/ | grep 'id="_http_booster"'
 <h2 id="_http_booster">Frontend at cloud-native-front-1-2pnbb</h2>
-http -v http://cloud-native-front-cnd-demo.192.168.64.80.nip.io/ | grep 'id="_http_booster"'
+curl -v http://cloud-native-front-PROJECT_NAME.HETZNER_IP.nip.io/ | grep 'id="_http_booster"'
 <h2 id="_http_booster">Frontend at cloud-native-front-1-cc44g</h2>
 ```
 
@@ -652,7 +652,7 @@ EOL
 - Then delete the previously created buildConfig resource
 
 ```bash
-oc delete bc/cloud-native-backend
+oc delete bc/cloud-native-backend-s2i 
 ```
 
 - Create a script that can be leveraged to automatically create the pipeline build config
@@ -700,7 +700,6 @@ chmod +x create-pipeline.sh
 oc start-build cloud-native-backend-$(oc project -q)
 ```
 
-
 - Open your project within the OpenShift console and select `Pipelines` under the `Build` screen
 - Look to your pipeline created and check if the build has been started
 - Click on the link `view log` to access to the `jenkins job console`
@@ -714,23 +713,5 @@ oc start-build cloud-native-backend-$(oc project -q)
 
 ![](image/jenkins_job.png)
 
-- When the build is finished, select within your Openshift Console the `overview` screen and access to the newly pod created
-
-TODO : Add screens for jenkins
-
-## Bonus
-
-- Install Istio using ansible playbook
-
-```bash
-pushd $(mktemp -d)
-echo "Git clone ansible project to install istio distro, project on openshift"
-git clone https://github.com/istio/istio.git && cd istio/install/ansible
-
-export ISTIO_VERSION=0.4.0 #or whatever version you prefer
-export JSON='{"cluster_flavour": "ocp","istio": {"release_tag_name": "'"$ISTIO_VERSION"'", "auth": false}}'
-echo "$JSON" > temp.json
-ansible-playbook main.yml -e "@temp.json"
-rm temp.json
-```
+- When the build is finished, select within your OpenShift Console the `overview` screen and access to the newly pod created
 
