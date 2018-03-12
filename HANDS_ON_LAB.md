@@ -344,7 +344,7 @@ Time: 10min
 
 - Get the `NAME_OF_THE_POD`
 ```bash
-oc get pods -lapp=cloud-native-front
+oc get pods -lapp=booster-demo-front-spring-boot
 NAME                         READY     STATUS    RESTARTS   AGE
 cloud-native-front-2-ck9lz   1/1       Running   0          1m
 ```
