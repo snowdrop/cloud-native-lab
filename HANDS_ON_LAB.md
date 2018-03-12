@@ -554,7 +554,7 @@ from the different spring boot applications and to aggregate them using a Distri
 We will use the OpenTracing specification implemented by the [Jaeger]() project and available using the [Spring Boot Jaeger starter]()
 For that purpose we will modify the existing applications to instrument them with the Spring Boot Jaeger.
 
-- Open the pom file and add the `Spring Boot Jaeger starter` dependency
+- Verify that the pom file contains the `Spring Boot Jaeger starter` dependency
 ```xml
 <!-- OpenTracing -->
 <dependency>
