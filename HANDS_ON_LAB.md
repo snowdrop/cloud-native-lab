@@ -4,6 +4,7 @@ Table of Contents
 =================
 
    * [Hands On Lab instructions for the Cloud Native Development](#hands-on-lab-instructions-for-the-cloud-native-development)
+   * [Table of Contents](#table-of-contents)
       * [Requirements](#requirements)
       * [Lab Scenario](#lab-scenario)
       * [Objectives](#objectives)
@@ -16,7 +17,6 @@ Table of Contents
          * [Use Distributed Tracing to collect app traces](#use-distributed-tracing-to-collect-app-traces)
          * [Show case horizontal scaling](#show-case-horizontal-scaling)
          * [S2I Build using pipeline](#s2i-build-using-pipeline)
-      * [Bonus](#bonus)
 
 ## Requirements
 
