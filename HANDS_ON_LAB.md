@@ -82,7 +82,7 @@ oc -h
 
 Time: 30 min
 
-- Access to the launcher using the following URL `https://launchpad-my-launcher.HETZNER_IP_ADDRESS.nip.io`
+- Access to the launcher using the following URL `https://launchpad-nginx-my-launcher.HETZNER_IP_ADDRESS.nip.io`
 - From the `launcher application` screen, click on `launch` button
 
 ![](image/launcher.png)
@@ -238,7 +238,7 @@ oc create -f openshift/mysql_serviceinstance.yml
 
 Time: 15min
    
-- Access to the launcher using the following URL `https://launchpad-my-launcher.HETZNER_IP_ADDRESS.nip.io`
+- Access to the launcher using the following URL `https://launchpad-nginx-my-launcher.HETZNER_IP_ADDRESS.nip.io`
 - From the `launcher application` screen, click on `launch` button
 - Within the deployment type screen, click on the button `I will build and run locally`
 - Next, select your mission : `Cloud Native Development - Demo Backend : JPA Persistence`
