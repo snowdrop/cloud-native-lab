@@ -473,7 +473,7 @@ public class OpenShiftIT {
 - Add the `baseURL` field and specify the following annotations
 ```java
     @AwaitRoute(path = "/health")
-    @RouteURL("${app.name}")
+    @RouteURL("cloud-native-backend")
     public URL baseURL;
 ```
 
@@ -524,7 +524,7 @@ The `@AwaitRule` annotation is used in order for Arquillian to wait until the ap
     }
 ```
 
-- Create an arquillian file under `src/main/resources` folder containing such parameters
+- Create an `arquillian.xml` file under `src/main/resources` folder containing such parameters
 ```xml
 <arquillian xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xmlns="http://jboss.org/schema/arquillian"
