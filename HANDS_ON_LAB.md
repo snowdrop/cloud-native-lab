@@ -473,7 +473,7 @@ public class OpenShiftIT {
 - Add the `baseURL` field and specify the following annotations
 ```java
     @AwaitRoute(path = "/health")
-    @RouteURL("${app.name}")
+    @RouteURL("cloud-native-backend")
     public URL baseURL;
 ```
 
