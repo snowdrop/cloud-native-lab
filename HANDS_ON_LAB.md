@@ -120,7 +120,19 @@ private String content;
 private Date createdAt;
 private Date updatedAt;
 ```
-
+- Add the interface `NoteGateway` within the same package
+```java
+public interface NoteGateway {
+    ...
+}
+```
+- Create the CRUD methods signature
+```java
+List<Note> all();
+Note add(Note note);
+Note update(Note note);
+void delete(long id);
+```
 - Add a `NoteController` class within the same package `me.snowdrop.cloudnative.front`
 - Add the following `Spring` annotations to specify the mapping to be used to expose the `note` service as REST endpoint
 ```java
@@ -164,20 +176,6 @@ The class `DefaultResult` also needs to be added as `private static` inside the 
 
         private DefaultResult() {}
     }
-```
-
-- Add the interface `NoteGateway` within the saame package
-```java
-public interface NoteGateway {
-    ...
-}
-```
-- Create the CRUD methods signature
-```java
-List<Note> all();
-Note add(Note note);
-Note update(Note note);
-void delete(long id);
 ```
 
 - Compile the project
