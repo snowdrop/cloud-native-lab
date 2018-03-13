@@ -90,7 +90,7 @@ Time: 30 min
 ![](image/launcher.png)
 
 - Within the deployment type screen, click on the button `I will build and run locally`
-- Next, select your mission : `Cloud Native Development - Demo Front`
+- Next, select your mission : `Cloud Native Development - Demo Frontend`
 
 ![](image/missions.png)
 
