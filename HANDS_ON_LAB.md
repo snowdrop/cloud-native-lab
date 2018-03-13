@@ -179,7 +179,7 @@ The class `DefaultResult` also needs to be added as `private static` inside the 
 ```
 
 - Compile the project
-```java
+```bash
 mvn clean compile
 ```
 
