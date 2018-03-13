@@ -661,6 +661,7 @@ podTemplate(name: 'maven33', label: 'maven33', cloud: 'openshift', serviceAccoun
     }
 
     stage("Deploy") {
+      sh "sed -e 's/changeme/${env.OPENSHIFT_NAMESPACE}/g' src/main/fabric8/dc.yaml -i"
       sh "mvn  -Popenshift -DskipTests clean fabric8:deploy"
     }
   }
