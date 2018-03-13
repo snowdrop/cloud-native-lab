@@ -200,6 +200,12 @@ mvn clean spring-boot:run
 mvn package fabric8:deploy -Popenshift
 ```
 
+- Open using the OpenShift UI console the `Routes` tab and click on the url of your front app
+![](image/openshift-routes.png)
+
+![](image/front-route.png)
+
+
 ### Create a MySQL service instance using the Service Catalog
 
 Time: 15min
