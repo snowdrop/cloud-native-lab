@@ -111,6 +111,11 @@ unzip booster-demo-front-spring-boot.zip
 cd booster-demo-front-spring-boot
 ```
 
+- Rename the `artifactId` of the pom.xml from `<artifactId>booster-demo-front-spring-boot</artifactId>` to
+```xml
+<artifactId>cloud-native-frontend</artifactId>
+```
+
 - Create `Note` pojo class under `src/main/java/me/snowdrop/cloudnative/front`
 - Define these fields as well as their respective setters/getters 
 ```java
