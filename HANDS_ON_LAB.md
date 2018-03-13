@@ -347,7 +347,7 @@ Remark : if the Lab is deployed on Minishift, then you can get the route using t
 
 Time: 10min
 
-- Edit the `deploymentConfig` of the `cloud-native-front` to add this env parameter and redeploy the pod
+- Edit the `deploymentConfig` of the `cloud-native-frontend` to add this env parameter and redeploy the pod
 
 ```yaml
 - name: JAVA_ENABLE_DEBUG
@@ -356,9 +356,9 @@ Time: 10min
 
 - Get the `NAME_OF_THE_POD`
 ```bash
-oc get pods -lapp=booster-demo-front-spring-boot
+oc get pods -lapp=cloud-native-frontend
 NAME                         READY     STATUS    RESTARTS   AGE
-cloud-native-front-2-ck9lz   1/1       Running   0          1m
+cloud-native-frontend-2-ck9lz   1/1       Running   0          1m
 ```
 - Next run this `oc` command to forward the pod traffic of the port `5005` to your local remote debugger running at the address `localhost:5005`
 ```bash
@@ -596,7 +596,7 @@ oc get pods -w
 
 ![](image/jaeger-query-project.png)
 
-- Using the `cloud-native-front` application, send requests against the backend to fetch data from the database by clicking on the refresh `button`
+- Using the `cloud-native-frontend` application, send requests against the backend to fetch data from the database by clicking on the refresh `button`
 - Check within the collector screen that traces have been generated
 
 ![](image/jaeger_traces.png)
@@ -606,32 +606,32 @@ oc get pods -w
 Time : 5min
 
 The OpenShift platform offers a horizontal scaling feature that we will use within this module of the lab in order
-to expose behind the `cloud-native-front` router address 2 pods. By opening the address of the route of the front application,
+to expose behind the `cloud-native-frontend` router address 2 pods. By opening the address of the route of the front application,
 you will be able to see the `pod-name` returned which corresponds to one of the pod load balanced by the Kubernetes API.
 
 - In order to showcase/demo horizontal scaling, then you will execute the following `oc` command to scale the DeploymentConfig
-  of the `cloud-native-front application`
+  of the `cloud-native-frontend application`
 
 ```bash
-oc scale --replicas=2 dc cloud-native-front
+oc scale --replicas=2 dc cloud-native-frontend
 ```
 
 - Then, verify that 2 pods are well running
 
 ```bash
-oc get pods -l app=cloud-native-front
+oc get pods -l app=cloud-native-frontend
 NAME                         READY     STATUS    RESTARTS   AGE
-cloud-native-front-1-2pnbb   1/1       Running   0          3h
-cloud-native-front-1-cc44g   1/1       Running   0          4h
+cloud-native-frontend-1-2pnbb   1/1       Running   0          3h
+cloud-native-frontend-1-cc44g   1/1       Running   0          4h
 ```
 
 - Next, open 2 Web browsers or curl to check that you get a response from on of the round robin called pod
 
 ```bash
-curl -v http://cloud-native-front-PROJECT_NAME.HETZNER_IP.nip.io/ | grep 'id="_http_booster"'
-<h2 id="_http_booster">Frontend at cloud-native-front-1-2pnbb</h2>
-curl -v http://cloud-native-front-PROJECT_NAME.HETZNER_IP.nip.io/ | grep 'id="_http_booster"'
-<h2 id="_http_booster">Frontend at cloud-native-front-1-cc44g</h2>
+curl -v http://cloud-native-frontend-PROJECT_NAME.HETZNER_IP.nip.io/ | grep 'id="_http_booster"'
+<h2 id="_http_booster">Frontend at cloud-native-frontend-1-2pnbb</h2>
+curl -v http://cloud-native-frontend-PROJECT_NAME.HETZNER_IP.nip.io/ | grep 'id="_http_booster"'
+<h2 id="_http_booster">Frontend at cloud-native-frontend-1-cc44g</h2>
 ```
 
 ### S2I Build using pipeline
