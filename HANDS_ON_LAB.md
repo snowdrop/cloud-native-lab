@@ -201,6 +201,7 @@ mvn package fabric8:deploy -Popenshift
 ```
 
 - Open using the OpenShift UI console the `Routes` tab
+
 ![](image/openshift-routes.png)
 
 - And click on the url of your frontend app
