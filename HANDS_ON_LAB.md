@@ -95,7 +95,7 @@ oc -h
 
 Time: 30 min
 
-- Access to the launcher using the following URL `https://launchpad-nginx-my-launcher.HETZNER_IP_ADDRESS.nip.io`
+- Access to the launcher using the following URL `http://launchpad-nginx-my-launcher.HETZNER_IP_ADDRESS.nip.io`
 - From the `launcher application` screen, click on `launch` button
 
 ![](image/launcher.png)
