@@ -324,12 +324,13 @@ oc env --from=secret/spring-boot-notes-mysql-binding dc/cloud-native-backend
 ![](image/front-db.png)
 
 ```bash
-#export BACKEND=$(oc get route/cloud-native-backend -o jsonpath='{.spec.host}' -n cnd-demo)
-export BACKEND=$(minishift openshift service cloud-native-backend -n cnd-demo --url)
+export BACKEND=$(oc get route/cloud-native-backend -o jsonpath='{.spec.host}' -n cnd-demo)
 curl -k $BACKEND/api/notes 
 curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' $BACKEND/api/notes 
 curl -k $BACKEND/api/notes/1
 ```
+
+Remark : if the Lab is deployed on Minishift, then you can get the route using this command `#export BACKEND=$(minishift openshift service cloud-native-backend -n cnd-demo --url)`
 
 ### Debug your application
 
