@@ -324,7 +324,7 @@ oc env --from=secret/spring-boot-notes-mysql-binding dc/cloud-native-backend
 ![](image/front-db.png)
 
 ```bash
-export BACKEND=$(oc get route/cloud-native-backend -o jsonpath='{.spec.host}' -n cnd-demo)
+export BACKEND=$(oc get route/cloud-native-backend -o jsonpath='{.spec.host}' -n $(oc project -q))
 curl -k $BACKEND/api/notes 
 curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' $BACKEND/api/notes 
 curl -k $BACKEND/api/notes/1
