@@ -200,11 +200,16 @@ mvn clean spring-boot:run
 mvn package fabric8:deploy -Popenshift
 ```
 
-- Open using the OpenShift UI console the `Routes` tab and click on the url of your front app
+- Open using the OpenShift UI console the `Routes` tab
 ![](image/openshift-routes.png)
+
+- And click on the url of your frontend app
 
 ![](image/front-route.png)
 
+- Check that your `Cloud Native Frontend` is alive !
+
+![](image/frontend-no-notes.png)
 
 ### Create a MySQL service instance using the Service Catalog
 
