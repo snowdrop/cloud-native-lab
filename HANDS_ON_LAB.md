@@ -17,6 +17,7 @@ Table of Contents
          * [Use Distributed Tracing to collect app traces](#use-distributed-tracing-to-collect-app-traces)
          * [Show case horizontal scaling](#show-case-horizontal-scaling)
          * [S2I Build using pipeline](#s2i-build-using-pipeline)
+   * [How to share your feedback](#how-to-share-your-feedback)
    * [Lab material for instructors](#lab-material-for-instructors)
 
 
@@ -750,6 +751,13 @@ oc start-build cloud-native-backend-$(oc project -q)
 ![](image/jenkins_job.png)
 
 - When the build is finished, select within your OpenShift Console the `overview` screen and access to the newly pod created
+
+# How to share your feedback
+
+As we need your help to improve the `Cloud Native Development and Experience` that we are currently developing for you, please report a ticket using github issue
+and tag your ticket using the label `feedback` under `https://github.com/snowdrop/cloud-native-lab`
+
+![](image/feedback.png)
 
 # Lab material for instructors
 
