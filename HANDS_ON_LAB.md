@@ -31,7 +31,7 @@ Table of Contents
 
 ## Openshify Cluster - Dedicated machines (Hetzner)
 
-- Your machines are defined according to your user
+- The machines to be accessed are defined according to your user
 
   - User from 1 to 30   : `https://195.201.87.126:8443/console/`
   - Users from 31 to 50 : `https://46.4.81.220:8443/console/`
