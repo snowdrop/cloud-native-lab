@@ -29,6 +29,18 @@ Table of Contents
 
 3. OpenShift oc client - [3.7.0](https://docs.openshift.org/latest/cli_reference/get_started_cli.html#installing-the-cli)
 
+## Openshify Cluster - Dedicated machines (Hetzner)
+
+- Your machines are defined according to your user
+
+  - User from 1 to 30   : `https://195.201.87.126:8443/console/`
+  - Users from 31 to 50 : `https://46.4.81.220:8443/console/`
+
+- Convention to follow to log on the OpenShift cluster
+  
+  - user : user1, user2, ....., user30
+  - password : pwd1, pwd2, ......, pwd50
+
 ## Lab Scenario
 
 The purpose of this lab is to develop and deploy 2 microservices on the OpenShift platform; a front and backend and to use a MySQL Database which has been provisioned as a service.
