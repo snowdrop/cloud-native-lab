@@ -291,7 +291,7 @@ oc new-app -f openshift/cloud-native-demo_backend_template.yml
 oc start-build cloud-native-backend-s2i --from-dir=. --follow
 ```
 - Wait until both the build and deployment are done !
-- As the pod of the backend doesn't yet has the info to access the database (and therefore can't correctly configure  it's datasource), the application will report errors within the log of the console.
+- As the pod of the backend doesn't yet has the info to access the database (and therefore can't correctly configure  its datasource), the application will report errors within the log of the console.
 - Then, from the left menu bar of the console, select `Resources/Secrets` to list the secrets
 
 ![](image/select-secret-db.png)
