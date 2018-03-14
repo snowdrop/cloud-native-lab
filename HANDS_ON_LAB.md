@@ -760,7 +760,7 @@ oc start-build cloud-native-backend-$(oc project -q)
 
 ![](image/jenkins_job.png)
 
-- To see the progression of the pipeline created and started, then open the OpenShift UI console and move to the tab `Builds/Pipeline`
+- To see the progression of the pipeline created and started, then open the OpenShift UI console and move to the tab `Builds/Pipelines`
 
 ![](image/pipeline-executed.png)
 
