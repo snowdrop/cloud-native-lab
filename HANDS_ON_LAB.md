@@ -156,7 +156,7 @@ void delete(long id);
 @RequestMapping("note")
 ```
 - Add a `NoteGateway noteGateway` field and define it as `private final`
-- Add constructor which accepts as parameter `NoteGateway noteGateway` and set within the body of the constructor the field `this.this.noteGateway`
+- Add constructor which accepts as parameter `NoteGateway noteGateway` and in the body of the constructor, assign this parameter to the noteGateway field `this.noteGateway = noteGateway;`
 - Create the CRUD / all, add, delete,update methods using as annotation respectively these values and return a `Note` or `List<Note>`
 ```java
 @GetMapping
