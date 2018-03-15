@@ -155,9 +155,10 @@ void delete(long id);
 @RestController
 @RequestMapping("note")
 ```
-- Add a field named `NoteGateway noteGateway` and mark as `private final`
-- Add a constructor that accepts `NoteGateway noteGateway` as a parameter, and in the body assigns this parameter to the noteGateway field `this.noteGateway = noteGateway;`
-- Create the CRUD (all, add, delete, update) methods and annotate each respectively. These methods should return a `Note` or `List<Note>` as specified by the interface. Implementation specified below:
+- Add a `NoteGateway noteGateway` field and define it as `private final`
+- Add constructor which accepts as parameter `NoteGateway noteGateway` and in the body of the constructor, assign this parameter to the noteGateway field `this.noteGateway = noteGateway;`
+- Create the CRUD / all, add, delete, update methods using as annotation respectively these values and return a `Note` or `List<Note>`
+
 ```java
 @GetMapping
 public List<Note> all()
