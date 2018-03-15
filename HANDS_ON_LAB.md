@@ -127,8 +127,8 @@ cd booster-demo-front-spring-boot
 <artifactId>cloud-native-frontend</artifactId>
 ```
 
-- Create `Note` pojo class under `src/main/java/me/snowdrop/cloudnative/front`
-- Define these fields as well as their respective setters/getters 
+- Create a POJO class named `Note` under `src/main/java/me/snowdrop/cloudnative/front`
+- Define the following fields and their respective setters/getters:
 ```java
 private Long id;
 private String title;
@@ -142,7 +142,7 @@ public interface NoteGateway {
     ...
 }
 ```
-- Create the CRUD methods signature
+- Create the CRUD methods for the `NoteGateway` interface. These methods will be implemented by Spring:
 ```java
 List<Note> all();
 Note add(Note note);
@@ -157,7 +157,8 @@ void delete(long id);
 ```
 - Add a `NoteGateway noteGateway` field and define it as `private final`
 - Add constructor which accepts as parameter `NoteGateway noteGateway` and in the body of the constructor, assign this parameter to the noteGateway field `this.noteGateway = noteGateway;`
-- Create the CRUD / all, add, delete,update methods using as annotation respectively these values and return a `Note` or `List<Note>`
+- Create the CRUD / all, add, delete, update methods using as annotation respectively these values and return a `Note` or `List<Note>`
+
 ```java
 @GetMapping
 public List<Note> all()
@@ -171,13 +172,13 @@ public DefaultResult delete(@PathVariable("id") long id)
 @PostMapping("/{id}")
 public Note update(@PathVariable("id") long id, @RequestBody Note note)
 ```
-- Implement the body of each CRUD method to return: 
+- Implement the body of each CRUD method as a passthrough to the NodeGateway instance: 
   - `noteGateway.all();` content for `all` method
   - `noteGateway.add(note);` for `add(Note note)`
   - `noteGateway.update(note);` for `update(long id, Note note)`. Note that before calling `noteGateway.update(note);` `note.setId(id);` needs to be executed
   - `DefaultResult.INSTANCE` as response message for `delete(long id)`
   
-The class `DefaultResult` also needs to be added as `private static` inside the `NoteController`
+Inside `NoteController`, define a `private static` inner class named `DefaultResult`.
 
 ```java
     private static class DefaultResult {
