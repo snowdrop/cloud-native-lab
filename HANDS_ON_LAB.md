@@ -95,6 +95,8 @@ oc -h
 
 Time: 30 min
 
+The launcher upstream project is at https://github.com/fabric8-launcher
+
 - Access to the launcher using the following URL `http://launchpad-nginx-my-launcher.HETZNER_IP_ADDRESS.nip.io`
 - From the `launcher application` screen, click on `launch` button
 
