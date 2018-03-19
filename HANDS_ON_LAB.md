@@ -23,7 +23,7 @@ Table of Contents
 
 ## Requirements
 
-1. Java - 1.8.x
+1. Java - 1.8.x as default JVM
 
 2. Maven - 3.5.x
 
@@ -38,7 +38,7 @@ The `objectives` section defined hereafter summarizes the features that you will
 
 - Discover OpenShift Cloud Platform
 - Play with the different strategies to build a project on the platform
-- Develop a real application (front, backend, database)
+- Develop a real application (frontend, backend, database)
 - Use Service Catalog to instantiate a service
 - Debug a microservice
 - Design a JUnit Integration test using Arquillian Cube
