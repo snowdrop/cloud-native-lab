@@ -49,10 +49,8 @@ The `objectives` section defined hereafter summarizes the features that you will
 
 Time: 15min
 
-- The machines to be accessed are defined according to your user
-
-  - User from 1 to 30   : `https://195.201.87.126:8443/console/`
-  - Users from 31 to 50 : `https://46.4.81.220:8443/console/`
+- The machines to be accessed are defined according to your user's badge number
+  So, for the Users starting from 1 to 30, use this OpenShift Cluster 3.7 - `https://195.201.87.126:8443/console/` and for the users (31 to 50) - `https://46.4.81.220:8443/console/` 
 
 - Convention to follow to log on the OpenShift cluster
   
