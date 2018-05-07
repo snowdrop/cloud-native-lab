@@ -20,7 +20,6 @@ Table of Contents
    * [How to share your feedback](#how-to-share-your-feedback)
    * [Lab material for instructors](#lab-material-for-instructors)
 
-
 ## Requirements
 
 1. Java - 1.8.x as default JVM
