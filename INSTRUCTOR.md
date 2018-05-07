@@ -35,7 +35,7 @@ and assume the following prerequisites
   
   **Remark** : The scenario to install OpenShift on a vm managed by a cloud provider (Hetzner, Amazon, OpenStack) is the same. Please refer to the doc concerning what [could change](https://github.com/snowdrop/openshift-infra/blob/3.9.0.SP2/ansible/README-cloud.md) 
 
-- Check if your VM matches the `prerequesites`
+- Check if your VM matches the `prerequisites`
 
   ```bash
   ansible-playbook -i inventory/cloud_host openshift-ansible/playbooks/prerequisites.yml
