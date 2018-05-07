@@ -53,8 +53,8 @@ and assume the following prerequisites
   ansible-playbook -i inventory/cloud_host playbook/post_installation.yml -e openshift_admin_pwd=admin --tags "enable_cluster_admin"
   ansible-playbook -i inventory/cloud_host playbook/post_installation.yml -e openshift_admin_pwd=admin --tags "identity_provider" 
   ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags persistence 
-  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags nexus
-   ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags jaeger -e infra_project=infra
+  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags nexus -e persistence=true
+  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags jaeger -e infra_project=infra
   ansible-playbook -i inventory/cloud_host openshift-ansible/playbooks/openshift-service-catalog/config.yml
   ```
   
@@ -76,6 +76,12 @@ See [Hands On Lab - objectives](HANDS_ON_LAB.md). Use master branch instead of t
 ## Temp commands - May 7 - 2018
 
 ```bash
+# CLEAN
+oc project default
+oc delete project/cloud-demo 
+oc scale --replicas=0 deployment jaeger -n infra
+oc scale --replicas=1 deployment jaeger -n infra
+
 # FRONTEND PART
 mkdir -p cloud-native-demo && cd cloud-native-demo
 echo "Use launcher to download Frontend"
@@ -97,10 +103,11 @@ open http://$FRONTEND
 See HOL instructions
 
 # BACKEND part
+echo "Use launcher to download Backend"
 cp ~/Downloads/booster-demo-backend-spring-boot.zip .
 unzip ~/Downloads/booster-demo-backend-spring-boot.zip
 cd booster-demo-backend-spring-boot
-mvn clean spring-boot:run -Ph2 -Drun.arguments="--spring.profiles.active=local,--jaeger.sender=http://jaeger-collector-tracing.192.168.64.85.nip.io/api/traces,--jaeger.protocol=HTTP,--jaeger.port=0"
+mvn clean spring-boot:run -Ph2 -Drun.arguments="--spring.profiles.active=local,--jaeger.sender=http://jaeger-collector-infra.192.168.99.50.nip.io/api/traces,--jaeger.protocol=HTTP,--jaeger.port=0"
 curl -k http://localhost:8080/api/notes 
 curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' http://localhost:8080/api/notes 
 curl -k http://localhost:8080/api/notes/1
@@ -110,17 +117,29 @@ oc new-app -f openshift/cloud-native-demo_backend_template.yml
 oc start-build cloud-native-backend-s2i --from-dir=. --follow
 ...
 
-apply the secret to the backend app and wait
+echo "Apply the secret to the backend app and wait ... till it will rebuild to play with the frontend"
 
-Next, play with the app using the Frontend
+echo "Play with Distributed tracing"
+export JAEGER=$(oc get route/jaeger-query --template '{{.spec.host}}' -n infra)
+open http://$JAEGER
 
-Bonus
-- Debug app
-- Run integration test
-- Scale pods : oc scale --replicas=2 dc cloud-native-frontend
-- Use jenkins pipeline
+echo "Debug app"
+oc env dc/cloud-native-frontend JAVA_ENABLE_DEBUG=true
+export POD_DEBUG=$(oc get pod/cloud-native-frontend-2-k9ssk --template '{{.metadata.name}}')
+oc port-forward $POD_DEBUG 5005:5005
+
+echo "Run integration test"
+mvn clean verify -Popenshift-it
+
+echo "Scale pods"
+oc scale --replicas=2 dc cloud-native-frontend
+oc get pods -l app=cloud-native-frontend
+curl -v http://cloud-native-frontend-PROJECT_NAME.HETZNER_IP.nip.io/ | grep 'id="_http_booster"'
+
+echo "Use jenkins pipeline"
 oc delete bc/cloud-native-backend-s2i 
-
+chmod +x create-pipeline.sh
+./create-pipeline.sh
 ```
 
 ## Update Catalog
