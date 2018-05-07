@@ -67,8 +67,57 @@ ansible-playbook -i inventory/cloud_host playbook/post_installation.yml \
      -e launcher_github_token=YOUR_GIT_USER     
 ```  
 
+## Update Catalog
+
+- Update mission catalog
+
+```bash
+cd catalog
+git rm -r * 
+git commit -m 'Delete all the stuff'
+git push   
+wget https://github.com/fabric8-launcher/launcher-booster-catalog/archive/v36.tar.gz
+tar xvfz *.tar.gz -C ./
+mv launcher-booster-catalog-36/metadata.yaml .
+mv launcher-booster-catalog-36//{fuse,nodejs,spring-boot,vert.x,wildfly-swarm} .
+rm -rf launcher-booster-catalog-*
+rm *.tar.gz
+```
+
+- Amend `metadata.yaml` file to include our boosters
+
+```yaml
+missions:
+- id: demo-frontend
+  name: Cloud Native Demo - Frontend
+  description: Cloud Native Frontend Spring Boot Application
+  metadata:
+    level: advanced
+- id: demo-backend
+  name: Cloud Native Demo - Backend
+  description: Cloud Native Backend Spring Boot Application
+  metadata:
+    level: advanced
+```
+
+- Add project's folders to the catalog
+
+```bash
+cp -r demo-backend ../catalog/spring-boot/current-community
+cp -r demo-frontend ../catalog/spring-boot/current-community
+```
+
+- Commit modifications
+
+```bash
+git add .
+git commit -m "Update Catalog" -a
+git push
+```
+
+
 ## Lab's demo
 
-See [Hands On Lab - objectives](HANDS_ON_LAB.md)
+See [Hands On Lab - objectives](HANDS_ON_LAB.md). Use master branch instead of the student's branch to use the solution !
 
   
