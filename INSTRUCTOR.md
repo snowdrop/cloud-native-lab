@@ -54,7 +54,7 @@ and assume the following prerequisites
   ansible-playbook -i inventory/cloud_host playbook/post_installation.yml -e openshift_admin_pwd=admin --tags "identity_provider" 
   ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags persistence 
   ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags nexus
-  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags jenkins
+   ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags jaeger -e infra_project=infra
   ansible-playbook -i inventory/cloud_host openshift-ansible/playbooks/openshift-service-catalog/config.yml
   ```
   
@@ -113,6 +113,14 @@ oc start-build cloud-native-backend-s2i --from-dir=. --follow
 apply the secret to the backend app and wait
 
 Next, play with the app using the Frontend
+
+Bonus
+- Debug app
+- Run integration test
+- Scale pods : oc scale --replicas=2 dc cloud-native-frontend
+- Use jenkins pipeline
+oc delete bc/cloud-native-backend-s2i 
+
 ```
 
 ## Update Catalog
