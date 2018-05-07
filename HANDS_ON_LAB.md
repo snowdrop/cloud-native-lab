@@ -108,7 +108,7 @@ The launcher upstream project is at https://github.com/fabric8-launcher
 - Accept the `Project Info`
 - Finally click on the button Select `Download as zip file`
 - Create a folder where you will develop your code
-mkdir -p cloud-native-demo
+
 ```bash
 mkdir -p cloud-native-demo
 cd cloud-native-demo
