@@ -107,7 +107,12 @@ curl -k http://localhost:8080/api/notes/1
 ...
 
 oc new-app -f openshift/cloud-native-demo_backend_template.yml
+oc start-build cloud-native-backend-s2i --from-dir=. --follow
+...
 
+apply the secret to the backend app and wait
+
+Next, play with the app using the Frontend
 ```
 
 ## Update Catalog
