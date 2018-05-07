@@ -76,24 +76,39 @@ See [Hands On Lab - objectives](HANDS_ON_LAB.md). Use master branch instead of t
 ## Temp commands - May 7 - 2018
 
 ```bash
-# CLEAN
+# EXISTING PROJECT
+echo "Existing project"
+cd cloud-native-demo
+rm *.zip
+setopt rmstarsilent
+rm -Rf booster-demo-backend-spring-boot/*
+rm -Rf booster-demo-frontend-spring-boot/*
+
+OR
+
+# NEW PROJECT
+echo "New project"
+mkdir -p cloud-native-demo && cd cloud-native-demo
+
 oc project default
-oc delete project/cloud-demo 
+oc delete project/demo 
 oc scale --replicas=0 deployment jaeger -n infra
 oc scale --replicas=1 deployment jaeger -n infra
 
+oc new-project demo
+
 # FRONTEND PART
-mkdir -p cloud-native-demo && cd cloud-native-demo
 echo "Use launcher to download Frontend"
 cp ~/Downloads/booster-demo-frontend-spring-boot.zip .
 unzip booster-demo-frontend-spring-boot.zip
-idea .
 cd booster-demo-frontend-spring-boot
+
+!! Rename artifact to `cloud-native-frontend`
+
 mvn clean compile
 mvn clean spring-boot:run 
 open http://localhost:8090
 
-oc new-project cloud-demo
 mvn package fabric8:deploy -Popenshift
 ...
 export FRONTEND=$(oc get route/cloud-native-frontend --template '{{.spec.host}}') 
@@ -108,9 +123,9 @@ cp ~/Downloads/booster-demo-backend-spring-boot.zip .
 unzip ~/Downloads/booster-demo-backend-spring-boot.zip
 cd booster-demo-backend-spring-boot
 mvn clean spring-boot:run -Ph2 -Drun.arguments="--spring.profiles.active=local,--jaeger.sender=http://jaeger-collector-infra.192.168.99.50.nip.io/api/traces,--jaeger.protocol=HTTP,--jaeger.port=0"
-curl -k http://localhost:8080/api/notes 
+http http://localhost:8080/api/notes 
 curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' http://localhost:8080/api/notes 
-curl -k http://localhost:8080/api/notes/1
+http http://localhost:8080/api/notes/1
 ...
 
 oc new-app -f openshift/cloud-native-demo_backend_template.yml
@@ -125,7 +140,7 @@ open http://$JAEGER
 
 echo "Debug app"
 oc env dc/cloud-native-frontend JAVA_ENABLE_DEBUG=true
-export POD_DEBUG=$(oc get pod/cloud-native-frontend-2-k9ssk --template '{{.metadata.name}}')
+export POD_DEBUG=$(oc get pod -l app=cloud-native-frontend -o jsonpath='{.items[0].metadata.name}')
 oc port-forward $POD_DEBUG 5005:5005
 
 echo "Run integration test"
@@ -134,64 +149,16 @@ mvn clean verify -Popenshift-it
 echo "Scale pods"
 oc scale --replicas=2 dc cloud-native-frontend
 oc get pods -l app=cloud-native-frontend
-curl -v http://cloud-native-frontend-PROJECT_NAME.HETZNER_IP.nip.io/ | grep 'id="_http_booster"'
+curl -v http://$FRONTEND | grep 'id="_http_booster"'
 
 echo "Use jenkins pipeline"
 oc delete bc/cloud-native-backend-s2i 
+oc adm policy add-cluster-role-to-user edit system:serviceaccount:infra:jenkins -n $(oc project -q)
 chmod +x create-pipeline.sh
+chmod +x start-pipeline.sh 
 ./create-pipeline.sh
+./start-pipeline.sh 
 ```
-
-## Update Catalog
-
-Procedure used to recreate the catalog using latest version supported by the `fabric8-backend`
-
-- Update mission catalog
-
-```bash
-cd catalog
-git rm -r * 
-git commit -m 'Delete all the stuff'
-git push   
-wget https://github.com/fabric8-launcher/launcher-booster-catalog/archive/v36.tar.gz
-tar xvfz *.tar.gz -C ./
-mv launcher-booster-catalog-36/metadata.yaml .
-mv launcher-booster-catalog-36//{fuse,nodejs,spring-boot,vert.x,wildfly-swarm} .
-rm -rf launcher-booster-catalog-*
-rm *.tar.gz
-```
-
-- Amend `metadata.yaml` file to include our boosters
-
-```yaml
-missions:
-- id: demo-frontend
-  name: Cloud Native Demo - Frontend
-  description: Cloud Native Frontend Spring Boot Application
-  metadata:
-    level: advanced
-- id: demo-backend
-  name: Cloud Native Demo - Backend
-  description: Cloud Native Backend Spring Boot Application
-  metadata:
-    level: advanced
-```
-
-- Add project's folders to the catalog
-
-```bash
-cp -r demo-backend ../catalog/spring-boot/current-community
-cp -r demo-frontend ../catalog/spring-boot/current-community
-```
-
-- Commit modifications
-
-```bash
-git add .
-git commit -m "Update Catalog" -a
-git push
-```
-
 
 
   
