@@ -27,7 +27,7 @@ Table of Contents
 
 2. Maven - 3.5.x
 
-3. OpenShift oc client - [3.7.0](https://docs.openshift.org/latest/cli_reference/get_started_cli.html#installing-the-cli)
+3. OpenShift oc client - [3.9.0](https://docs.openshift.org/latest/cli_reference/get_started_cli.html#installing-the-cli)
 
 ## Lab Scenario
 
