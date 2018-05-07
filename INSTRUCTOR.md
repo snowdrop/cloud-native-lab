@@ -1,7 +1,5 @@
 # Instructions to demo the Lab
 
-## Locally
-
 The instructions defined hereafter are a summary about the official documentation that you can find from the `openshift-infra` project
 
 - [Openshift Installation](https://github.com/snowdrop/openshift-infra/tree/3.9.0.SP2#openshift-deployment)
@@ -16,7 +14,7 @@ and assume the following prerequisites
 
 **Instructions**
 
-- Git clone the `openshift-infra` project and checkout the lastest release available for OpenShift (e.g : `3.9-SP2`)
+- Git clone the `openshift-infra` project and checkout the latest release available for OpenShift (e.g : `3.9-SP2`)
 
   ```bash
   git clone -b 3.9.0.SP2 https://github.com/snowdrop/openshift-infra.git
@@ -34,6 +32,8 @@ and assume the following prerequisites
   ```bash
   ansible-playbook playbook/generate_inventory.yml -e ip_address=192.168.99.50
   ```
+  
+  **Remark** : The scenario to install OpenShift on a vm managed by a cloud provider (Hetzner, Amazon, OpenStack) is the same. Please refer to the doc concerning what [could change](https://github.com/snowdrop/openshift-infra/blob/3.9.0.SP2/ansible/README-cloud.md) 
 
 - Check if your VM matches the `prerequesites`
 
