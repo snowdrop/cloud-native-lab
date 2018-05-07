@@ -9,7 +9,7 @@ Table of Contents
       * [Lab Scenario](#lab-scenario)
       * [Objectives](#objectives)
          * [Discover the OpenShift platform](#discover-the-openshift-platform)
-         * [Generate Spring Boot Cloud Native Front project using the launcher](#generate-spring-boot-cloud-native-front-project-using-the-launcher)
+         * [Generate Spring Boot Cloud Native Frontend project using the launcher](#generate-spring-boot-cloud-native-frontend-project-using-the-launcher)
          * [Create a MySQL service instance using the Service Catalog](#create-a-mysql-service-instance-using-the-service-catalog)
          * [Use the launcher to generate a Cloud Native Demo - Backend zip](#use-the-launcher-to-generate-a-cloud-native-demo---backend-zip)
          * [Debug your application](#debug-your-application)
@@ -89,7 +89,7 @@ Run 'oc new-app' to create an application.
 oc -h
 ```
 
-### Generate Spring Boot Cloud Native Front project using the launcher
+### Generate Spring Boot Cloud Native Frontend project using the launcher
 
 Time: 30 min
 
@@ -391,7 +391,7 @@ oc port-forward NAME_OF_POD 5005:5005
 ![](image/remote-debug.png)
 
 - Start your remote debugger locally at the address `5005`
-- Open the front application within your web browser and click on the button to get all the notes
+- Open the Frontend application within your web browser and click on the button to get all the notes
 - Then your remote debugger should stop at the line where the breakpoint has been added
 
 ![](image/remote-debugging.png)
@@ -624,7 +624,7 @@ oc get pods -w
 Time : 5min
 
 The OpenShift platform offers a horizontal scaling feature that we will use within this module of the lab in order
-to expose behind the `cloud-native-frontend` router address 2 pods. By opening the address of the route of the front application,
+to expose behind the `cloud-native-frontend` router address 2 pods. By opening the address of the route of the Frontend application,
 you will be able to see the `pod-name` returned which corresponds to one of the pod load balanced by the Kubernetes API.
 
 - In order to showcase/demo horizontal scaling, then you will execute the following `oc` command to scale the DeploymentConfig

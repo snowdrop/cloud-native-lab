@@ -12,7 +12,7 @@ and assume the following prerequisites
 - [Virtualbox](https://www.virtualbox.org/wiki/Downloads)
 - [Centos VM](https://github.com/snowdrop/openshift-infra/tree/3.9.0.SP2#option-2--local---customized-linux-vm)
 
-**Instructions**
+## Deploy OpenShift and needed features
 
 - Git clone the `openshift-infra` project and checkout the latest release available for OpenShift (e.g : `3.9-SP2`)
 
@@ -47,12 +47,28 @@ and assume the following prerequisites
   ansible-playbook -i inventory/cloud_host openshift-ansible/playbooks/deploy_cluster.yml
   ```
 
-**Post installation**
+- Post installation steps to : configure persistence, grant cluster-role to the admin user, install the Ansible Service Broker and Jenkins (S2I Build)
 
-In order to play with the Lab, we will setup the persistence, grant cluster-role to the admin user and install the Ansible Service Broker
+  ```bash
+  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml -e openshift_admin_pwd=admin --tags "enable_cluster_admin"
+  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml -e openshift_admin_pwd=admin --tags "identity_provider" 
+  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags persistence 
+  ansible-playbook -i inventory/cloud_host openshift-ansible/playbooks/openshift-service-catalog/config.yml
+  ```
+  
+- Install the Fabric8 Launcher using as Boosters's catalog the `cloud-native` catalog and your Git Hub account/token
 
 ```bash
-ansible-playbook -i inventory/cloud_host playbook/post_installation.yml -e openshift_admin_pwd=admin --tags "enable_cluster_admin"
-ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags persistence 
-ansible-playbook -i inventory/cloud_host openshift-ansible/playbooks/openshift-service-catalog/config.yml
-```
+ansible-playbook -i inventory/cloud_host playbook/post_installation.yml \
+     --tags install-launcher \
+     -e launcher_catalog_git_repo=https://github.com/snowdrop/cloud-native-catalog.git \
+     -e launcher_catalog_git_branch=master \
+     -e launcher_github_username=YOUR_GIT_TOKEN \
+     -e launcher_github_token=YOUR_GIT_USER     
+```  
+
+## Lab's demo
+
+See [Hands On Lab - objectives](HANDS_ON_LAB.md)
+
+  
