@@ -2,7 +2,7 @@ name: Cloud Native Frontend - Demo
 description: Booster to showcase Spring Boot Frontend application for Cloud Native Demo
 source:
   git:
-    url: snowdrop/cloud-native-frontend.git
+    url: https://github.com/snowdrop/cloud-native-frontend.git
     ref: master
 metadata:
   runsOn:
