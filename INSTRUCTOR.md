@@ -53,6 +53,8 @@ and assume the following prerequisites
   ansible-playbook -i inventory/cloud_host playbook/post_installation.yml -e openshift_admin_pwd=admin --tags "enable_cluster_admin"
   ansible-playbook -i inventory/cloud_host playbook/post_installation.yml -e openshift_admin_pwd=admin --tags "identity_provider" 
   ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags persistence 
+  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags nexus
+  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags jenkins
   ansible-playbook -i inventory/cloud_host openshift-ansible/playbooks/openshift-service-catalog/config.yml
   ```
   
@@ -67,7 +69,50 @@ ansible-playbook -i inventory/cloud_host playbook/post_installation.yml \
      -e launcher_github_token=YOUR_GIT_USER     
 ```  
 
+## Lab's demo
+
+See [Hands On Lab - objectives](HANDS_ON_LAB.md). Use master branch instead of the student's branch to use the solution !
+
+## Temp commands - May 7 - 2018
+
+```bash
+# FRONTEND PART
+mkdir -p cloud-native-demo && cd cloud-native-demo
+echo "Use launcher to download Frontend"
+cp ~/Downloads/booster-demo-frontend-spring-boot.zip .
+unzip booster-demo-frontend-spring-boot.zip
+idea .
+cd booster-demo-frontend-spring-boot
+mvn clean compile
+mvn clean spring-boot:run 
+open http://localhost:8090
+
+oc new-project cloud-demo
+mvn package fabric8:deploy -Popenshift
+...
+export FRONTEND=$(oc get route/cloud-native-frontend --template '{{.spec.host}}') 
+open http://$FRONTEND
+
+# SERVICE CATALOG PART
+See HOL instructions
+
+# BACKEND part
+cp ~/Downloads/booster-demo-backend-spring-boot.zip .
+unzip ~/Downloads/booster-demo-backend-spring-boot.zip
+cd booster-demo-backend-spring-boot
+mvn clean spring-boot:run -Ph2 -Drun.arguments="--spring.profiles.active=local,--jaeger.sender=http://jaeger-collector-tracing.192.168.64.85.nip.io/api/traces,--jaeger.protocol=HTTP,--jaeger.port=0"
+curl -k http://localhost:8080/api/notes 
+curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' http://localhost:8080/api/notes 
+curl -k http://localhost:8080/api/notes/1
+...
+
+oc new-app -f openshift/cloud-native-demo_backend_template.yml
+
+```
+
 ## Update Catalog
+
+Procedure used to recreate the catalog using latest version supported by the `fabric8-backend`
 
 - Update mission catalog
 
@@ -116,8 +161,5 @@ git push
 ```
 
 
-## Lab's demo
-
-See [Hands On Lab - objectives](HANDS_ON_LAB.md). Use master branch instead of the student's branch to use the solution !
 
   
