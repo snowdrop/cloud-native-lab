@@ -17,7 +17,7 @@ and assume the following prerequisites
 - Git clone the `openshift-infra` project and checkout the latest release available for OpenShift (e.g : `3.9-SP2`)
 
   ```bash
-  git clone -b 3.9.0.SP2 https://github.com/snowdrop/openshift-infra.git
+  git clone -b 3.9.0.SP3 https://github.com/snowdrop/openshift-infra.git
   cd openshift-infra/ansible
   ```
 
@@ -50,11 +50,11 @@ and assume the following prerequisites
 - Post installation steps to : configure persistence, grant cluster-role to the admin user, install the Ansible Service Broker and Jenkins (S2I Build)
 
   ```bash
-  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml -e openshift_admin_pwd=admin --tags "enable_cluster_admin"
-  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml -e openshift_admin_pwd=admin --tags "identity_provider" 
-  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags persistence 
-  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags nexus -e persistence=true
-  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags jaeger -e infra_project=infra
+  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml -e openshift_admin_pwd=admin --tags enable_cluster_admin
+  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags persistence
+  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags jenkins 
+  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags nexus
+  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml -e infra_project=infra --tags jaeger
   ansible-playbook -i inventory/cloud_host openshift-ansible/playbooks/openshift-service-catalog/config.yml
   ```
   
@@ -133,6 +133,8 @@ oc start-build cloud-native-backend-s2i --from-dir=. --follow
 ...
 
 echo "Apply the secret to the backend app and wait ... till it will rebuild to play with the frontend"
+export FRONTEND=$(oc get route/cloud-native-frontend --template '{{.spec.host}}') 
+open http://$FRONTEND
 
 echo "Play with Distributed tracing"
 export JAEGER=$(oc get route/jaeger-query --template '{{.spec.host}}' -n infra)
