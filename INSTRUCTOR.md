@@ -2,15 +2,15 @@
 
 The instructions defined hereafter are a summary about the official documentation that you can find from the `openshift-infra` project
 
-- [Openshift Installation](https://github.com/snowdrop/openshift-infra/tree/3.9.0.SP2#openshift-deployment)
-- [Post installation steps](https://github.com/snowdrop/openshift-infra/blob/3.9.0.SP2/ansible/README-post-installation.md)
+- [Openshift Installation](https://github.com/snowdrop/openshift-infra/tree/3.9.0.SP3#openshift-deployment)
+- [Post installation steps](https://github.com/snowdrop/openshift-infra/blob/3.9.0.SP3/ansible/README-post-installation.md)
 
 and assume the following prerequisites 
 
 **Prerequisites** :
 - [Ansible - 2.4](http://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 - [Virtualbox](https://www.virtualbox.org/wiki/Downloads)
-- [Centos VM](https://github.com/snowdrop/openshift-infra/tree/3.9.0.SP2#option-2--local---customized-linux-vm)
+- [Centos VM](https://github.com/snowdrop/openshift-infra/tree/3.9.0.SP3#option-2--local---customized-linux-vm) or Amazon, Hetzner's CentOS7 vm
 
 ## Deploy OpenShift and needed features
 
@@ -30,7 +30,7 @@ and assume the following prerequisites
 - Generate the Ansible inventory to access the Linux VM and specify as parameter the ip address of the machine
 
   ```bash
-  ansible-playbook playbook/generate_inventory.yml -e ip_address=195.201.87.126
+  ansible-playbook playbook/generate_inventory.yml -e ip_address=192.168.99.50
   ```
   
   **Remark** : The scenario to install OpenShift on a vm managed by a cloud provider (Hetzner, Amazon, OpenStack) is the same. Please refer to the doc concerning what [could change](https://github.com/snowdrop/openshift-infra/blob/3.9.0.SP2/ansible/README-cloud.md) 
