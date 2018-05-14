@@ -90,13 +90,13 @@ Time: 30 min
 
 The launcher upstream project is at https://github.com/fabric8-launcher
 
-- Access to the launcher using the following URL `http://launchpad-nginx-my-launcher.HETZNER_IP_ADDRESS.nip.io`
+- Access to the launcher using the following URL `http://launcher-cloud-demo.HETZNER_IP_ADDRESS.nip.io`
 - From the `launcher application` screen, click on `launch` button
 
 ![](image/launcher.png)
 
 - Within the deployment type screen, click on the button `I will build and run locally`
-- Next, select your mission : `Cloud Native Development - Demo Frontend`
+- Next, select your mission : `Cloud Native Demo - Frontend`
 
 ![](image/cloud-native-missions.png)
 
@@ -279,10 +279,10 @@ oc create -f openshift/mysql_serviceinstance.yml
 
 Time: 15min
    
-- Access to the launcher using the following URL `http://launchpad-nginx-my-launcher.HETZNER_IP_ADDRESS.nip.io`
+- Access to the launcher using the following URL `http://launcher-cloud-demo.HETZNER_IP_ADDRESS.nip.io`
 - From the `launcher application` screen, click on `launch` button
 - Within the deployment type screen, click on the button `I will build and run locally`
-- Next, select your mission : `Cloud Native Development - Demo Backend : JPA Persistence`
+- Next, select your mission : `Cloud Native Demo - Backend`
 
 ![](image/missions.png)
 
