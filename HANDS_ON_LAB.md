@@ -775,10 +775,10 @@ and tag your ticket using the label `feedback` under `https://github.com/snowdro
 
 - List of projects used and containing the code
 
-- [Cloud Native Front](https://github.com/snowdrop/cloud-native-front)
-- [Cloud Native Backend](https://github.com/snowdrop/cloud-native-backend)
-- [Launcher catalog](https://github.com/snowdrop/cloud-native-catalog)
-- [Lab](https://github.com/snowdrop/cloud-native-lab)
+  - [Cloud Native Front](https://github.com/snowdrop/cloud-native-front)
+  - [Cloud Native Backend](https://github.com/snowdrop/cloud-native-backend)
+  - [Launcher catalog](https://github.com/snowdrop/cloud-native-catalog)
+  - [Lab](https://github.com/snowdrop/cloud-native-lab)
 
 - [Informations](INSTRUCTOR.md) for the instructor concerning how to setup the lab and play with it
 
