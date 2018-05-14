@@ -11,6 +11,7 @@ and assume the following prerequisites
 - [Ansible - 2.4](http://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 - [Virtualbox](https://www.virtualbox.org/wiki/Downloads)
 - [Centos VM](https://github.com/snowdrop/openshift-infra/tree/3.9.0.SP3#option-2--local---customized-linux-vm) or Amazon, Hetzner's CentOS7 vm
+- ssh access to the vm and public's key imported
 
 ## Deploy OpenShift and needed features
 
@@ -79,6 +80,10 @@ for i in $(seq 1 20); do
 done
 ```
 
+- Edit the Jenkins OpenShift sync plugin under the menu `Manage Jenkins/Configure system` - https://jenkins-infra.VM_IP_ADDRESS.nip.io/configure to add as namespace the list of the user's project to watch BuildConfigs
+```
+infra user1 user2 user3 user4 user5 user6 user7 user8 user9 user10 user11 user12 user13 user14 user15 user16 user17 user18 user19 user20 
+```
 
 ## Lab's demo
 
