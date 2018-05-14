@@ -122,6 +122,7 @@ cd booster-demo-front-spring-boot
 <artifactId>cloud-native-frontend</artifactId>
 ```
 
+- The following steps are optional as the code is part of the project downloaded
 - Create a POJO class named `Note` under `src/main/java/me/snowdrop/cloudnative/front`
 - Define the following fields and their respective setters/getters:
 ```java
@@ -225,7 +226,7 @@ Time: 15min
 
 Use the OpenShift Console to create a MySQL Service within your project and bind it. 
 
-- Within your project, click on the `Browse catalog` button
+- Within your project - overview, select from the menu `Add to project`, the `Browse catalog` option
 
 ![](image/click_browse_catalog.png)
 
