@@ -50,11 +50,12 @@ and assume the following prerequisites
 - Post installation steps to : configure persistence, grant cluster-role to the admin user, install the Ansible Service Broker and Jenkins (S2I Build)
 
   ```bash
-  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml -e openshift_admin_pwd=admin --tags enable_cluster_admin
+  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml -e openshift_admin_pwd=admin --tags enable_cluster_role
+  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags add_extra_users -e number_of_extra_users=2 -e first_extra_user_offset=1 -e openshift_admin_pwd=admin
   ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags persistence
   ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags jenkins 
   ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags nexus
-  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml -e infra_project=infra --tags jaeger
+  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags jaeger
   ansible-playbook -i inventory/cloud_host openshift-ansible/playbooks/openshift-service-catalog/config.yml
   ```
   
