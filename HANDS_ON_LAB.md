@@ -780,6 +780,6 @@ and tag your ticket using the label `feedback` under `https://github.com/snowdro
 - [Launcher catalog](https://github.com/snowdrop/cloud-native-catalog)
 - [Lab](https://github.com/snowdrop/cloud-native-lab)
 
-- Informations for the instructor concerning how to setup the lab and play with it
+- [Informations](INSTRUCTOR.md) for the instructor concerning how to setup the lab and play with it
 
 
