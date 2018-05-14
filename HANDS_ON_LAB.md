@@ -33,6 +33,8 @@ Table of Contents
 The purpose of this lab is to develop and deploy 2 microservices on the OpenShift platform; a front and backend and to use a MySQL Database which has been provisioned as a service.
 The `objectives` section defined hereafter summarizes the features that you will play with this Hands On Lab material.
 
+![](image/frontend-backend.png)
+
 ## Objectives
 
 - Discover OpenShift Cloud Platform
