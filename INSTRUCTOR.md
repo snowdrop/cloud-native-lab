@@ -71,7 +71,7 @@ ansible-playbook -i inventory/cloud_host playbook/post_installation.yml \
      -e launcher_github_token=YOUR_GIT_USER     
 ```  
 
-- Exexcute as `system:admin` user, the following command to provide cluster role for jenkins to the user's project
+- Execute as `system:admin` user, the following command to provide cluster role for jenkins to the user's project
 
 ```bash
 for i in $(seq 1 20); do
