@@ -14,7 +14,7 @@ and assume the following prerequisites
 
 ## Deploy OpenShift and needed features
 
-- Git clone the `openshift-infra` project and checkout the latest release available for OpenShift (e.g : `3.9-SP2`)
+- Git clone the `openshift-infra` project and checkout the latest release available for OpenShift (e.g : `3.9-SP3`)
 
   ```bash
   git clone -b 3.9.0.SP3 https://github.com/snowdrop/openshift-infra.git
@@ -27,10 +27,10 @@ and assume the following prerequisites
   git clone -b release-3.9 https://github.com/openshift/openshift-ansible.git
   ```
 
-- Generate the Ansible inventory to access your `local` Linux VM
+- Generate the Ansible inventory to access the Linux VM and specify as parameter the ip address of the machine
 
   ```bash
-  ansible-playbook playbook/generate_inventory.yml -e ip_address=192.168.99.50
+  ansible-playbook playbook/generate_inventory.yml -e ip_address=195.201.87.126
   ```
   
   **Remark** : The scenario to install OpenShift on a vm managed by a cloud provider (Hetzner, Amazon, OpenStack) is the same. Please refer to the doc concerning what [could change](https://github.com/snowdrop/openshift-infra/blob/3.9.0.SP2/ansible/README-cloud.md) 
@@ -64,6 +64,7 @@ and assume the following prerequisites
 ```bash
 ansible-playbook -i inventory/cloud_host playbook/post_installation.yml \
      --tags install-launcher \
+     -e launcher_project_name=cloud-demo \
      -e launcher_catalog_git_repo=https://github.com/snowdrop/cloud-native-catalog.git \
      -e launcher_catalog_git_branch=master \
      -e launcher_github_username=YOUR_GIT_TOKEN \
@@ -123,7 +124,7 @@ echo "Use launcher to download Backend"
 cp ~/Downloads/booster-demo-backend-spring-boot.zip .
 unzip ~/Downloads/booster-demo-backend-spring-boot.zip
 cd booster-demo-backend-spring-boot
-mvn clean spring-boot:run -Ph2 -Drun.arguments="--spring.profiles.active=local,--jaeger.sender=http://jaeger-collector-infra.192.168.99.50.nip.io/api/traces,--jaeger.protocol=HTTP,--jaeger.port=0"
+mvn clean spring-boot:run -Ph2 -Drun.arguments="--spring.profiles.active=local,--jaeger.sender=http://jaeger-collector-infra.195.201.87.126.nip.io/api/traces,--jaeger.protocol=HTTP,--jaeger.port=0"
 http http://localhost:8080/api/notes 
 curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' http://localhost:8080/api/notes 
 http http://localhost:8080/api/notes/1
