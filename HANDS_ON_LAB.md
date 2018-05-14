@@ -50,17 +50,11 @@ The `objectives` section defined hereafter summarizes the features that you will
 
 Time: 15min
 
-- The machines to be accessed are defined according to your user's badge number
-  So, for the Users starting from 1 to 30, use this OpenShift Cluster 3.7 - `https://195.201.87.126:8443/console/` and for the users (31 to 50) - `https://46.4.81.220:8443/console/` 
-
-- Convention to follow to log on the OpenShift cluster
-  
+- To access to the OpenShift Demo machine, please open your browser at this address `https://195.201.87.126:8443/console/` and log on according to the convention defined hereafter
   - user : user1, user2, ....., user30
-  - password : pwd1, pwd2, ......, pwd50
-
-- Open the OpenShift Cluster within your browser and verify that you can log on to the machine using your user/pwd
-
-Remark: Use the user/pwd and IP address assigned to you
+  - password : pwd1, pwd2, ......, pwd30
+  
+  **WARNING** : The variable `HETZNER_IP_ADDRESS` refers to the following ip address `195.201.87.126`.
 
 - Get the token from the `command-line` screen using this URL `https://HETZNER_IP_ADDRESS:8443/console/command-line`
 - Next, execute this command within your terminal to access to the cluster using your `oc` client tool (making sure you substitute the token with one from the previous step)
@@ -69,16 +63,16 @@ Remark: Use the user/pwd and IP address assigned to you
 oc login https://HETZNER_IP_ADDRESS:8443 --token=3WiSqc3JyW5dkJ5izQvOBVFK-njXTTnpse8ruLiYaoQ
 Logged into "https://HETZNER_IP_ADDRESS:8443" as "user1" using the token provided.
 
-You have one project on this server: "project1"
+You have one project on this server: "user1"
 
-Using project "project1".
+Using project "user1".
 ```
 
 - Check the status of the project
 
 ```bash
 oc status
-In project project1 on server https://HETZNER_IP_ADDRESS:8443
+In project `user1` on server https://HETZNER_IP_ADDRESS:8443
 
 You have no services, deployment configs, or build configs.
 Run 'oc new-app' to create an application.
