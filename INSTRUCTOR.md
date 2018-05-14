@@ -51,7 +51,7 @@ and assume the following prerequisites
 
   ```bash
   ansible-playbook -i inventory/cloud_host playbook/post_installation.yml -e openshift_admin_pwd=admin --tags enable_cluster_role
-  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags add_extra_users -e number_of_extra_users=2 -e first_extra_user_offset=1 -e openshift_admin_pwd=admin
+  ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags add_extra_users -e number_of_extra_users=20 -e first_extra_user_offset=1 -e openshift_admin_pwd=admin
   ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags persistence
   ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags jenkins 
   ansible-playbook -i inventory/cloud_host playbook/post_installation.yml --tags nexus
@@ -70,6 +70,15 @@ ansible-playbook -i inventory/cloud_host playbook/post_installation.yml \
      -e launcher_github_username=YOUR_GIT_TOKEN \
      -e launcher_github_token=YOUR_GIT_USER     
 ```  
+
+- Exexcute as `system:admin` user, the following command to provide cluster role for jenkins to the user's project
+
+```bash
+for i in $(seq 1 20); do
+  $(printf "oc adm policy add-cluster-role-to-user edit system:serviceaccount:infra:jenkins -n user%02d\n" "$i")
+done
+```
+
 
 ## Lab's demo
 
@@ -157,7 +166,12 @@ curl -v http://$FRONTEND | grep 'id="_http_booster"'
 
 echo "Use jenkins pipeline"
 oc delete bc/cloud-native-backend-s2i 
-oc adm policy add-cluster-role-to-user edit system:serviceaccount:infra:jenkins -n $(oc project -q)
+
+echo "Add the required role for the user's project"
+for i in $(seq 1 20); do
+  $(printf "oc adm policy add-cluster-role-to-user edit system:serviceaccount:infra:jenkins -n user%02d\n" "$i")
+done
+
 chmod +x create-pipeline.sh
 chmod +x start-pipeline.sh 
 ./create-pipeline.sh
