@@ -98,7 +98,7 @@ The launcher upstream project is at https://github.com/fabric8-launcher
 - Within the deployment type screen, click on the button `I will build and run locally`
 - Next, select your mission : `Cloud Native Demo - Frontend`
 
-![](image/cloud-native-missions.png)
+![](image/frontend-mission.png)
 
 - Choose `Spring Boot Runtime`
 - Accept the `Project Info`
@@ -285,7 +285,7 @@ Time: 15min
 - Within the deployment type screen, click on the button `I will build and run locally`
 - Next, select your mission : `Cloud Native Demo - Backend`
 
-![](image/missions.png)
+![](image/backend-mission.png)
 
 - Choose the `Spring Boot Runtime`
 - Accept the `Project Info`
@@ -299,7 +299,7 @@ cd booster-demo-backend-spring-boot
 ```
 - Build, launch spring-boot locally to test the in-memory H2 database
 ```bash
-mvn clean spring-boot:run -Ph2 -Drun.arguments="--spring.profiles.active=local,--jaeger.sender=http://jaeger-collector-tracing.192.168.64.85.nip.io/api/traces,--jaeger.protocol=HTTP,--jaeger.port=0"
+mvn clean spring-boot:run -Ph2 -Drun.arguments="--spring.profiles.active=local,--jaeger.sender=http://jaeger-collector-infra.HETZNER_IP_ADDRESS.nip.io/api/traces,--jaeger.protocol=HTTP,--jaeger.port=0"
 curl -k http://localhost:8080/api/notes 
 curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' http://localhost:8080/api/notes 
 curl -k http://localhost:8080/api/notes/1
