@@ -54,7 +54,7 @@ Time: 15min
   - user : user1, user2, ....., user30
   - password : pwd1, pwd2, ......, pwd30
   
-  **WARNING** : The variable `HETZNER_IP_ADDRESS` refers to the following ip address `195.201.87.126`.
+  **NOTE** : The lab will use by convention the following parameter `HETZNER_IP_ADDRESS` to refer to the IP address of the cloud machine running on Hetzner : `195.201.87.126`.
 
 - Get the token from the `command-line` screen using this URL `https://HETZNER_IP_ADDRESS:8443/console/command-line`
 - Next, execute this command within your terminal to access to the cluster using your `oc` client tool (making sure you substitute the token with one from the previous step)
