@@ -745,19 +745,7 @@ oc start-build cloud-native-backend-$(oc project -q)
 ```
 
 - Open your project within the OpenShift console and select `Pipelines` under the `Build` screen
-- Look to your pipeline created and check if the build has been started
-- Click on the link `view log` to access to the `jenkins job console`
-- When you will access to the `jenkins` server, then use your `user/password` to log on 
-- Click on the button `Allow selected permissions`
-
-![](image/authorize_access.png)
-
-- Log on again with your user/password
-- Consult the output of the build within the job screen
-
-![](image/jenkins_job.png)
-
-- To see the progression of the pipeline created and started, then open the OpenShift UI console and move to the tab `Builds/Pipelines`
+- Wait until the pipeline has been executed
 
 ![](image/pipeline-executed.png)
 
