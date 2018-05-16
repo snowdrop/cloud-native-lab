@@ -51,7 +51,7 @@ The `objectives` section defined hereafter summarizes the features that you will
 Time: 15min
 
 - To access to the OpenShift Demo machine, please open your browser at this address `https://195.201.87.126:8443/console/` and log on according to the convention defined hereafter
-  - user : user1, user2, ....., user30
+  - user : user01, user02, ....., user30
   - password : pwd1, pwd2, ......, pwd30
   
   **NOTE** : The lab will use by convention the following parameter `HETZNER_IP_ADDRESS` to refer to the IP address of the cloud machine running on Hetzner : `195.201.87.126`.
@@ -61,18 +61,18 @@ Time: 15min
 
 ```bash
 oc login https://HETZNER_IP_ADDRESS:8443 --token=3WiSqc3JyW5dkJ5izQvOBVFK-njXTTnpse8ruLiYaoQ
-Logged into "https://HETZNER_IP_ADDRESS:8443" as "user1" using the token provided.
+Logged into "https://HETZNER_IP_ADDRESS:8443" as "user01" using the token provided.
 
-You have one project on this server: "user1"
+You have one project on this server: "user01"
 
-Using project "user1".
+Using project "user01".
 ```
 
 - Check the status of the project
 
 ```bash
 oc status
-In project `user1` on server https://HETZNER_IP_ADDRESS:8443
+In project `user01` on server https://HETZNER_IP_ADDRESS:8443
 
 You have no services, deployment configs, or build configs.
 Run 'oc new-app' to create an application.
